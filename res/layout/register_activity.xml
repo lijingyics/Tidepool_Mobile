@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:orientation="vertical" >
+	
+	<TextView
+	  android:layout_width="match_parent"
+	  android:layout_height="wrap_content"
+	  android:gravity="center"
+	  android:text="@string/register" 
+	  android:textSize="30sp"
+	  android:layout_marginBottom="20dp" />
+	
+	<EditText android:id="@+id/username"
+	  android:layout_width="match_parent"
+	  android:layout_height="wrap_content"
+	  android:layout_marginLeft="16dp"
+	  android:layout_marginRight="16dp"
+	  android:hint="@string/username" />
+	
+	<EditText android:id="@+id/password"
+	  android:layout_width="match_parent"
+	  android:layout_height="wrap_content"
+	  android:layout_marginLeft="16dp"
+	  android:layout_marginRight="16dp"
+	  android:hint="@string/password"
+	  android:inputType="textPassword" />
+	
+	<EditText android:id="@+id/confirmpassword"
+	  android:layout_width="match_parent"
+	  android:layout_height="wrap_content"
+	  android:layout_marginLeft="16dp"
+	  android:layout_marginRight="16dp"
+	  android:hint="@string/confirm_password" 
+	  android:inputType="textPassword"/>
+	
+	<EditText android:id="@+id/email"
+	  android:layout_width="match_parent"
+	  android:layout_height="wrap_content"
+	  android:layout_marginLeft="16dp"
+	  android:layout_marginRight="16dp"
+	  android:hint="@string/email"
+      android:inputType="textEmailAddress" />
+	
+	<EditText android:id="@+id/phonenum"
+	  android:layout_width="match_parent"
+	  android:layout_height="wrap_content"
+	  android:layout_marginLeft="16dp"
+	  android:layout_marginRight="16dp"
+	  android:hint="@string/phonenum"
+      android:inputType="phone" />
+	
+	<EditText android:id="@+id/birth"
+	  android:layout_width="match_parent"
+	  android:layout_height="wrap_content"
+	  android:layout_marginLeft="16dp"
+	  android:layout_marginRight="16dp"
+	  android:hint="@string/birth"
+      android:inputType="date" />
+	
+	<RadioGroup android:id="@+id/sex"
+	    android:layout_width="fill_parent"
+	    android:layout_height="match_parent"
+	    android:orientation="horizontal">
+	    <RadioButton android:id="@+id/female"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/female"
+	        android:onClick="onRadioButtonClicked"/>
+	    <RadioButton android:id="@+id/male"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="16dp"
+	        android:text="@string/male"
+	        android:onClick="onRadioButtonClicked"/>
+	</RadioGroup>
+	
+	<RadioGroup android:id="@+id/usertype"
+	    android:layout_width="fill_parent"
+	    android:layout_height="match_parent"
+	    android:orientation="horizontal">
+	    <RadioButton android:id="@+id/patient"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/patient"
+	        android:onClick="onRadioButtonClicked"/>
+	    <RadioButton android:id="@+id/parent"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="17dp"
+	        android:text="@string/parent"
+	        android:onClick="onRadioButtonClicked"/>
+	    <RadioButton android:id="@+id/doctor"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="16dp"
+	        android:text="@string/doctor"
+	        android:onClick="onRadioButtonClicked"/>
+	</RadioGroup>
+	
+	<Button android:id="@+id/signup"
+	  android:layout_width="match_parent"
+	  android:layout_height="wrap_content"
+	  android:text="@string/action_signup" />
+	
+	<TextView
+      android:id="@+id/login"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="left"
+      android:layout_marginTop="8dp"
+      android:paddingLeft="32dp"
+      android:textColor="#3399FF"
+      android:text="@string/action_signin"
+      android:linksClickable="true" />
+	
+</LinearLayout>
