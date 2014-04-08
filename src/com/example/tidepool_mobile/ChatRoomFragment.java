@@ -1,13 +1,13 @@
 package com.example.tidepool_mobile;
 
-import android.app.Activity;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class ChatRoomFragment extends Activity {
+public class ChatRoomFragment extends Fragment {
 	//@overwrite
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
        Bundle savedInstanceState) {

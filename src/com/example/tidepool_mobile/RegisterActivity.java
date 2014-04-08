@@ -1,6 +1,5 @@
 package com.example.tidepool_mobile;
 
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -75,5 +74,5 @@ public class RegisterActivity extends Activity {
 	            break;
 	    }
 	}
-
+	
 }
