@@ -1,4 +1,6 @@
-package com.example.tidepool_mobile;
+package com.tidepool.activities;
+
+import com.example.tidepool_mobile.R;
 
 import android.app.Activity;
 import android.content.Intent;

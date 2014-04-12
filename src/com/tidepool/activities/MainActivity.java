@@ -1,4 +1,6 @@
-package com.example.tidepool_mobile;
+package com.tidepool.activities;
+
+import com.example.tidepool_mobile.R;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
