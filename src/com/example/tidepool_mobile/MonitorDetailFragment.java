@@ -3,6 +3,7 @@ package com.example.tidepool_mobile;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTabHost;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,8 +16,12 @@ public class MonitorDetailFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.monitor_main, container, false);
         
-        chattingButtonListener(v);
+        /*FragmentTabHost mTabHost;
+        mTabHost = (FragmentTabHost)v.findViewById(android.R.id.tabhost);
         
+        mTabHost.setCurrentTab(0);
+        chattingButtonListener(v);
+        */
         return v;
 	}
 	
