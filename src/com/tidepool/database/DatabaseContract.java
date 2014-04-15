@@ -10,7 +10,7 @@ public final class DatabaseContract {
 		//table name
         public static final String TABLE_USER = "user";
         public static final String TABLE_DATA = "data";
-        public static final String TABLE_CHAT = "chat";
+        //public static final String TABLE_CHAT = "chat";
         public static final String TABLE_MESSAGE = "message";
         public static final String TABLE_CHAT_MESSAGE = "chat_message";
         public static final String TABLE_CHAT_USER = "chat_user";
@@ -38,7 +38,7 @@ public final class DatabaseContract {
 
         //message table - column names
         public static final String COLUMN_TALK = "talk";
-        public static final String COLUMN_CID = "chat_id";
+        //public static final String COLUMN_CID = "chat_id";
         
         //chat_message table - column names
         public static final String COLUMN_MID = "message_id";

@@ -34,10 +34,10 @@ public class TidepoolDbHelper extends SQLiteOpenHelper {
             + FeedEntry.COLUMN_UID + " INTEGER FOREIGN KEY" + ")";
     
     //chat table
-    private static final String CREATE_TABLE_CHAT = "CREATE TABLE "
+    /*private static final String CREATE_TABLE_CHAT = "CREATE TABLE "
             + FeedEntry.TABLE_CHAT + "(" 
     		+ FeedEntry._ID + " INTEGER PRIMARY KEY,"
-            + FeedEntry.COLUMN_DID + " INTEGER FOREIGN KEY" + ")";
+            + FeedEntry.COLUMN_DID + " INTEGER FOREIGN KEY" + ")";*/
     
     //message table
     private static final String CREATE_TABLE_MESSAGE = "CREATE TABLE "
@@ -50,14 +50,14 @@ public class TidepoolDbHelper extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_CHAT_MESSAGE = "CREATE TABLE "
             + FeedEntry.TABLE_CHAT_MESSAGE + "(" 
     		+ FeedEntry._ID + " INTEGER PRIMARY KEY,"
-    		+ FeedEntry.COLUMN_CID + " INTEGER FOREIGN KEY"
+    		+ FeedEntry.COLUMN_DID + " INTEGER FOREIGN KEY"
             + FeedEntry.COLUMN_MID + " INTEGER FOREIGN KEY" + ")";
     
     //chat_user table
     private static final String CREATE_TABLE_CHAT_USER = "CREATE TABLE "
             + FeedEntry.TABLE_CHAT_USER + "(" 
     		+ FeedEntry._ID + " INTEGER PRIMARY KEY,"
-    		+ FeedEntry.COLUMN_CID + " INTEGER FOREIGN KEY"
+    		+ FeedEntry.COLUMN_DID + " INTEGER FOREIGN KEY"
             + FeedEntry.COLUMN_UID + " INTEGER FOREIGN KEY" + ")";
     
     //friends table
@@ -88,7 +88,7 @@ public class TidepoolDbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_USER);
         db.execSQL(CREATE_TABLE_DATA);
-        db.execSQL(CREATE_TABLE_CHAT);
+        //db.execSQL(CREATE_TABLE_CHAT);
         db.execSQL(CREATE_TABLE_MESSAGE);
         db.execSQL(CREATE_TABLE_CHAT_MESSAGE);
         db.execSQL(CREATE_TABLE_CHAT_USER);
@@ -101,7 +101,7 @@ public class TidepoolDbHelper extends SQLiteOpenHelper {
         // Drop Table
     	db.execSQL("DROP TABLE IF EXISTS " + FeedEntry.TABLE_USER);
         db.execSQL("DROP TABLE IF EXISTS " + FeedEntry.TABLE_DATA);
-        db.execSQL("DROP TABLE IF EXISTS " + FeedEntry.TABLE_CHAT);
+        //db.execSQL("DROP TABLE IF EXISTS " + FeedEntry.TABLE_CHAT);
         db.execSQL("DROP TABLE IF EXISTS " + FeedEntry.TABLE_MESSAGE);
         db.execSQL("DROP TABLE IF EXISTS " + FeedEntry.TABLE_CHAT_MESSAGE);
         db.execSQL("DROP TABLE IF EXISTS " + FeedEntry.TABLE_CHAT_USER);

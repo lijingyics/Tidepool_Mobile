@@ -3,6 +3,10 @@ package com.tidepool.database;
 import java.util.ArrayList;
 
 import com.tidepool.database.DatabaseContract.FeedEntry;
+import com.tidepool.entities.Alert;
+import com.tidepool.entities.Data;
+import com.tidepool.entities.Message;
+import com.tidepool.entities.User;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -14,13 +18,45 @@ public class TidepoolDbSource {
 	  // Database fields
 	  private SQLiteDatabase db;
 	  private TidepoolDbHelper dbHelper;
-	  private String[] allColumns = { 
-			  FeedEntry.COLUMN_NAME_ENTRY_ID, 
-			  FeedEntry.COLUMN_QUIZ_1,
-			  FeedEntry.COLUMN_QUIZ_2,
-			  FeedEntry.COLUMN_QUIZ_3,
-			  FeedEntry.COLUMN_QUIZ_4,
-			  FeedEntry.COLUMN_QUIZ_5 };
+	  
+	  private String[] userColumns = { 
+			  FeedEntry.COLUMN_EMAIL, 
+			  FeedEntry.COLUMN_USERNAME,
+			  FeedEntry.COLUMN_PASSWORD,
+			  FeedEntry.COLUMN_PHONE,
+			  FeedEntry.COLUMN_BIRTH,
+			  FeedEntry.COLUMN_GENDER,
+			  FeedEntry.COLUMN_ROLE };
+	  
+	  private String[] dataColumns = { 
+			  FeedEntry.COLUMN_TIME, 
+			  FeedEntry.COLUMN_BG,
+			  FeedEntry.COLUMN_INSULIN,
+			  FeedEntry.COLUMN_UID };
+	  
+	  private String[] messageColumns = { 
+			  FeedEntry.COLUMN_TALK, 
+			  FeedEntry.COLUMN_UID };
+	  
+	  private String[] chatmessageColumns = { 
+			  FeedEntry.COLUMN_DID, 
+			  FeedEntry.COLUMN_MID };
+	  
+	  private String[] chatuserColumns = { 
+			  FeedEntry.COLUMN_DID, 
+			  FeedEntry.COLUMN_UID };
+	  
+	  private String[] friendsColumns = { 
+			  FeedEntry.COLUMN_UID_1, 
+			  FeedEntry.COLUMN_UID_2 };
+	  
+	  private String[] alertColumns = { 
+			  FeedEntry.COLUMN_CONTENT };
+	  
+	  private String[] alertuserColumns = { 
+			  FeedEntry.COLUMN_AID, 
+			  FeedEntry.COLUMN_UID,
+			  FeedEntry.COLUMN_STATUS };
 	  
 
 	  public TidepoolDbSource(Context context) {
@@ -39,19 +75,134 @@ public class TidepoolDbSource {
 		  dbHelper.close();
 	  }
 	  
-	  public void addScore(Student stud) {
+	  /**
+	   * Insert user table
+	   * @param user
+	   */
+	  public void insertUser(User user) {
 		  // Create a new map of values, where column names are the keys
 		  ContentValues values = new ContentValues();
-		  values.put(FeedEntry.COLUMN_NAME_ENTRY_ID, stud.getStudentID());
-		  values.put(FeedEntry.COLUMN_QUIZ_1, stud.getScores(0));
-		  values.put(FeedEntry.COLUMN_QUIZ_2, stud.getScores(1));
-		  values.put(FeedEntry.COLUMN_QUIZ_3, stud.getScores(2));
-		  values.put(FeedEntry.COLUMN_QUIZ_4, stud.getScores(3));
-		  values.put(FeedEntry.COLUMN_QUIZ_5, stud.getScores(4));
+		  values.put(FeedEntry.COLUMN_EMAIL, user.getEmail());
+		  values.put(FeedEntry.COLUMN_USERNAME, user.getUsername());
+		  values.put(FeedEntry.COLUMN_PASSWORD, user.getPassword());
+		  values.put(FeedEntry.COLUMN_PHONE, user.getPhoneNo());
+		  values.put(FeedEntry.COLUMN_BIRTH, user.getDateOfBirth().toString());
+		  values.put(FeedEntry.COLUMN_GENDER, user.getGender());
+		  values.put(FeedEntry.COLUMN_ROLE, user.getRole());
 		  
 		  // Insert the new row, returning the primary key value of the new row
-		  db.insertWithOnConflict(FeedEntry.TABLE_NAME, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+		  db.insertWithOnConflict(FeedEntry.TABLE_USER, null, values, SQLiteDatabase.CONFLICT_REPLACE);
 	  }
+	  
+	  /**
+	   * Insert data table
+	   * @param data
+	   */
+	  public void insertData(Data data) {
+		  // Create a new map of values, where column names are the keys
+		  ContentValues values = new ContentValues();
+		  values.put(FeedEntry.COLUMN_TIME, data.getTime().toString());
+		  values.put(FeedEntry.COLUMN_BG, data.getBg());
+		  values.put(FeedEntry.COLUMN_INSULIN, data.getInsulin());
+		  values.put(FeedEntry.COLUMN_UID, data.getUserId());
+		  
+		  // Insert the new row, returning the primary key value of the new row
+		  db.insertWithOnConflict(FeedEntry.TABLE_DATA, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+	  }
+	  
+	  /**
+	   * Insert message table
+	   * @param message
+	   */
+	  public void insertMessage(Message message) {
+		  // Create a new map of values, where column names are the keys
+		  ContentValues values = new ContentValues();
+		  values.put(FeedEntry.COLUMN_TALK, message.getContent());
+		  values.put(FeedEntry.COLUMN_UID, message.getUserId());
+		  
+		  // Insert the new row, returning the primary key value of the new row
+		  db.insertWithOnConflict(FeedEntry.TABLE_MESSAGE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+	  }
+	  
+	  /**
+	   * Insert chat_message table
+	   * @param dID is data ID
+	   * @param mID is message ID
+	   */
+	  public void insertChatMessage(long dID, long mID) {
+		  // Create a new map of values, where column names are the keys
+		  ContentValues values = new ContentValues();
+		  values.put(FeedEntry.COLUMN_DID, dID);
+		  values.put(FeedEntry.COLUMN_MID, mID);
+		  
+		  // Insert the new row, returning the primary key value of the new row
+		  db.insertWithOnConflict(FeedEntry.TABLE_CHAT_MESSAGE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+	  }
+	  
+	  /**
+	   * Insert the chat_user table
+	   * @param dID is data ID
+	   * @param uID is user ID
+	   */
+	  public void insertChatUser(long dID, long uID) {
+		  // Create a new map of values, where column names are the keys
+		  ContentValues values = new ContentValues();
+		  values.put(FeedEntry.COLUMN_DID, dID);
+		  values.put(FeedEntry.COLUMN_UID, uID);
+		  
+		  // Insert the new row, returning the primary key value of the new row
+		  db.insertWithOnConflict(FeedEntry.TABLE_CHAT_USER, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+	  }
+	  
+	  /**
+	   * Insert the friends table
+	   * Being cautious that the relationship may already exist
+	   * @param uID1
+	   * @param uID2
+	   */
+	  public void insertFriends(long uID1, long uID2) {
+		  // Create a new map of values, where column names are the keys
+		  ContentValues values = new ContentValues();
+		  values.put(FeedEntry.COLUMN_UID_1, uID1);
+		  values.put(FeedEntry.COLUMN_UID_2, uID2);
+		  
+		  // Insert the new row, returning the primary key value of the new row
+		  db.insertWithOnConflict(FeedEntry.TABLE_FRIENDS, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+	  }
+	  
+	  /**
+	   * Insert the alert table
+	   * @param alert
+	   */
+	  public void insertAlert(Alert alert) {
+		  // Create a new map of values, where column names are the keys
+		  ContentValues values = new ContentValues();
+		  values.put(FeedEntry.COLUMN_CONTENT, alert.getContent());
+		  
+		  // Insert the new row, returning the primary key value of the new row
+		  db.insertWithOnConflict(FeedEntry.TABLE_ALERT, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+	  }
+	  
+	  /**
+	   * Insert alert_user table
+	   * @param alert
+	   * @param uID
+	   */
+	  public void insertAlertUser(Alert alert, long uID) {
+		  // Create a new map of values, where column names are the keys
+		  ContentValues values = new ContentValues();
+		  values.put(FeedEntry.COLUMN_AID, alert.getId());
+		  values.put(FeedEntry.COLUMN_UID, uID );
+		  values.put(FeedEntry.COLUMN_STATUS, alert.getStatus());
+		  
+		  // Insert the new row, returning the primary key value of the new row
+		  db.insertWithOnConflict(FeedEntry.TABLE_ALERT_USER, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+	  }
+	  
+	  
+	  
+	  
+	  // Continue Here!
 	  
 	 /**
 	 * Getting single student

@@ -3,17 +3,17 @@ package com.tidepool.entities;
 import java.sql.Date;
 
 public class Data {
-	private int id;
+	private long id;
 	private Date time;
 	private int bg;
 	private int insulin;
-	private int userId;
+	private long userId;
 	private int chatId;
 	
-	public int getId() {
+	public long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	public Date getTime() {
@@ -34,10 +34,10 @@ public class Data {
 	public void setInsulin(int insulin) {
 		this.insulin = insulin;
 	}
-	public int getUserId() {
+	public long getUserId() {
 		return userId;
 	}
-	public void setUserId(int userId) {
+	public void setUserId(long userId) {
 		this.userId = userId;
 	}
 	public int getChatId() {

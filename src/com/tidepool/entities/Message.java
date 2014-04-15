@@ -1,14 +1,14 @@
 package com.tidepool.entities;
 
 public class Message {
-	private int id;
+	private long id;
 	private int userId;
 	private String content;
 	
-	public int getId() {
+	public long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	public int getUserId() {
