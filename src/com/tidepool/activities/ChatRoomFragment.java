@@ -1,6 +1,5 @@
 package com.tidepool.activities;
 
-
 import com.example.tidepool_mobile.R;
 
 import android.os.Bundle;
