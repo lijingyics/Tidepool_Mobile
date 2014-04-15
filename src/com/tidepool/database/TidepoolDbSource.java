@@ -263,7 +263,7 @@ public class TidepoolDbSource {
 	 * @return one data
 	 */
 	public Data getData(long id) {
-		Cursor cursor = db.query(FeedEntry.TABLE_USER, userColumns, 
+		Cursor cursor = db.query(FeedEntry.TABLE_DATA, dataColumns, 
 				FeedEntry._ID + "=?", 
 				new String[] { String.valueOf(id) }, 
 				null, null, null, null);
@@ -296,7 +296,7 @@ public class TidepoolDbSource {
 	 * @return all data of one user
 	 */
 	public ArrayList<Data> getDataByUser(long uID) {
-		Cursor cursor = db.query(FeedEntry.TABLE_USER, userColumns, 
+		Cursor cursor = db.query(FeedEntry.TABLE_DATA, dataColumns, 
 				FeedEntry.COLUMN_UID + "=?", 
 				new String[] { String.valueOf(uID) }, 
 				null, null, FeedEntry.COLUMN_TIME, null);
