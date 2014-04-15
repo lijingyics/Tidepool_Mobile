@@ -20,7 +20,7 @@ public class TidepoolDbHelper extends SQLiteOpenHelper {
     		+ FeedEntry.COLUMN_USERNAME + " TEXT NOT NULL UNIQUE,"
     		+ FeedEntry.COLUMN_PASSWORD + " TEXT,"
     		+ FeedEntry.COLUMN_PHONE + " TEXT,"
-            + FeedEntry.COLUMN_BIRTH + " TEXT," 
+            + FeedEntry.COLUMN_BIRTH + " DATE," 
     		+ FeedEntry.COLUMN_GENDER + " TEXT,"
             + FeedEntry.COLUMN_ROLE + " TEXT NOT NULL" + ")";
     
@@ -28,7 +28,7 @@ public class TidepoolDbHelper extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_DATA = "CREATE TABLE "
             + FeedEntry.TABLE_DATA + "(" 
     		+ FeedEntry._ID + " INTEGER PRIMARY KEY," 
-    		+ FeedEntry.COLUMN_TIME + " TEXT NOT NULL,"
+    		+ FeedEntry.COLUMN_TIME + " DATETIME NOT NULL,"
     		+ FeedEntry.COLUMN_BG + " INTEGER NOT NULL,"
     		+ FeedEntry.COLUMN_INSULIN + " INTEGER NOT NULL,"
             + FeedEntry.COLUMN_UID + " INTEGER FOREIGN KEY" + ")";
@@ -51,21 +51,24 @@ public class TidepoolDbHelper extends SQLiteOpenHelper {
             + FeedEntry.TABLE_CHAT_MESSAGE + "(" 
     		+ FeedEntry._ID + " INTEGER PRIMARY KEY,"
     		+ FeedEntry.COLUMN_DID + " INTEGER FOREIGN KEY"
-            + FeedEntry.COLUMN_MID + " INTEGER FOREIGN KEY" + ")";
+            + FeedEntry.COLUMN_MID + " INTEGER FOREIGN KEY"
+    		+ "UNIQUE(" + FeedEntry.COLUMN_DID + "," + FeedEntry.COLUMN_MID + ")" + ")";
     
     //chat_user table
     private static final String CREATE_TABLE_CHAT_USER = "CREATE TABLE "
             + FeedEntry.TABLE_CHAT_USER + "(" 
     		+ FeedEntry._ID + " INTEGER PRIMARY KEY,"
     		+ FeedEntry.COLUMN_DID + " INTEGER FOREIGN KEY"
-            + FeedEntry.COLUMN_UID + " INTEGER FOREIGN KEY" + ")";
+            + FeedEntry.COLUMN_UID + " INTEGER FOREIGN KEY"
+            + "UNIQUE(" + FeedEntry.COLUMN_DID + "," + FeedEntry.COLUMN_UID + ")" + ")";
     
     //friends table
     private static final String CREATE_TABLE_FRIENDS = "CREATE TABLE "
             + FeedEntry.TABLE_FRIENDS + "(" 
     		+ FeedEntry._ID + " INTEGER PRIMARY KEY,"
     		+ FeedEntry.COLUMN_UID_1 + " INTEGER FOREIGN KEY"
-            + FeedEntry.COLUMN_UID_2 + " INTEGER FOREIGN KEY" + ")";
+            + FeedEntry.COLUMN_UID_2 + " INTEGER FOREIGN KEY"
+            + "UNIQUE(" + FeedEntry.COLUMN_UID_1 + "," + FeedEntry.COLUMN_UID_2 + ")" + ")";
     
     //alert table
     private static final String CREATE_TABLE_ALERT = "CREATE TABLE "
@@ -79,7 +82,8 @@ public class TidepoolDbHelper extends SQLiteOpenHelper {
     		+ FeedEntry._ID + " INTEGER PRIMARY KEY,"
     		+ FeedEntry.COLUMN_AID + " INTEGER FOREIGN KEY"
             + FeedEntry.COLUMN_UID + " INTEGER FOREIGN KEY"
-            + FeedEntry.COLUMN_STATUS + " TEXT" + ")";
+            + FeedEntry.COLUMN_STATUS + " TEXT"
+            + "UNIQUE(" + FeedEntry.COLUMN_AID + "," + FeedEntry.COLUMN_UID + ")" + ")";
     
     public TidepoolDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

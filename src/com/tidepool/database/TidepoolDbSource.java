@@ -1,6 +1,10 @@
 package com.tidepool.database;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import com.tidepool.database.DatabaseContract.FeedEntry;
 import com.tidepool.entities.Alert;
@@ -13,248 +17,318 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 public class TidepoolDbSource {
-	  // Database fields
-	  private SQLiteDatabase db;
-	  private TidepoolDbHelper dbHelper;
+	// Database fields
+	private SQLiteDatabase db;
+	private TidepoolDbHelper dbHelper;
 	  
-	  private String[] userColumns = { 
-			  FeedEntry.COLUMN_EMAIL, 
-			  FeedEntry.COLUMN_USERNAME,
-			  FeedEntry.COLUMN_PASSWORD,
-			  FeedEntry.COLUMN_PHONE,
-			  FeedEntry.COLUMN_BIRTH,
-			  FeedEntry.COLUMN_GENDER,
-			  FeedEntry.COLUMN_ROLE };
+	private String[] userColumns = {
+		  FeedEntry._ID,
+		  FeedEntry.COLUMN_EMAIL, 
+		  FeedEntry.COLUMN_USERNAME,
+		  FeedEntry.COLUMN_PASSWORD,
+		  FeedEntry.COLUMN_PHONE,
+		  FeedEntry.COLUMN_BIRTH,
+		  FeedEntry.COLUMN_GENDER,
+		  FeedEntry.COLUMN_ROLE };
 	  
-	  private String[] dataColumns = { 
-			  FeedEntry.COLUMN_TIME, 
-			  FeedEntry.COLUMN_BG,
-			  FeedEntry.COLUMN_INSULIN,
-			  FeedEntry.COLUMN_UID };
+	private String[] dataColumns = { 
+		  FeedEntry._ID,
+		  FeedEntry.COLUMN_TIME, 
+		  FeedEntry.COLUMN_BG,
+		  FeedEntry.COLUMN_INSULIN,
+		  FeedEntry.COLUMN_UID };
 	  
-	  private String[] messageColumns = { 
-			  FeedEntry.COLUMN_TALK, 
-			  FeedEntry.COLUMN_UID };
+	private String[] messageColumns = { 
+		  FeedEntry._ID,
+		  FeedEntry.COLUMN_TALK, 
+		  FeedEntry.COLUMN_UID };
 	  
-	  private String[] chatmessageColumns = { 
-			  FeedEntry.COLUMN_DID, 
-			  FeedEntry.COLUMN_MID };
+	private String[] chatmessageColumns = { 
+		  FeedEntry._ID,
+		  FeedEntry.COLUMN_DID, 
+		  FeedEntry.COLUMN_MID };
 	  
-	  private String[] chatuserColumns = { 
-			  FeedEntry.COLUMN_DID, 
-			  FeedEntry.COLUMN_UID };
+	private String[] chatuserColumns = { 
+		  FeedEntry._ID,
+		  FeedEntry.COLUMN_DID, 
+		  FeedEntry.COLUMN_UID };
 	  
-	  private String[] friendsColumns = { 
-			  FeedEntry.COLUMN_UID_1, 
-			  FeedEntry.COLUMN_UID_2 };
+	private String[] friendsColumns = { 
+		  FeedEntry._ID,
+		  FeedEntry.COLUMN_UID_1, 
+		  FeedEntry.COLUMN_UID_2 };
 	  
-	  private String[] alertColumns = { 
-			  FeedEntry.COLUMN_CONTENT };
-	  
-	  private String[] alertuserColumns = { 
-			  FeedEntry.COLUMN_AID, 
-			  FeedEntry.COLUMN_UID,
-			  FeedEntry.COLUMN_STATUS };
+	private String[] alertColumns = {
+		  FeedEntry._ID,
+		  FeedEntry.COLUMN_CONTENT };
+	 
+	private String[] alertuserColumns = {
+		  FeedEntry._ID,
+		  FeedEntry.COLUMN_AID, 
+		  FeedEntry.COLUMN_UID,
+		  FeedEntry.COLUMN_STATUS };
 	  
 
-	  public TidepoolDbSource(Context context) {
-		  dbHelper = new TidepoolDbHelper(context);
-	  }
+	public TidepoolDbSource(Context context) {
+		dbHelper = new TidepoolDbHelper(context);
+	}
 
-	  public void openW() throws SQLException {
-		  db = dbHelper.getWritableDatabase();
-	  }
+	public void openW() throws SQLException {
+		db = dbHelper.getWritableDatabase();
+	}
 	  
-	  public void openR() throws SQLException {
-		  db = dbHelper.getReadableDatabase();
-	  }
+	public void openR() throws SQLException {
+		db = dbHelper.getReadableDatabase();
+	}
 
-	  public void close() {
-		  dbHelper.close();
-	  }
+	public void close() {
+		dbHelper.close();
+	}
 	  
-	  /**
-	   * Insert user table
-	   * @param user
-	   */
-	  public void insertUser(User user) {
-		  // Create a new map of values, where column names are the keys
-		  ContentValues values = new ContentValues();
-		  values.put(FeedEntry.COLUMN_EMAIL, user.getEmail());
-		  values.put(FeedEntry.COLUMN_USERNAME, user.getUsername());
-		  values.put(FeedEntry.COLUMN_PASSWORD, user.getPassword());
-		  values.put(FeedEntry.COLUMN_PHONE, user.getPhoneNo());
-		  values.put(FeedEntry.COLUMN_BIRTH, user.getDateOfBirth().toString());
-		  values.put(FeedEntry.COLUMN_GENDER, user.getGender());
-		  values.put(FeedEntry.COLUMN_ROLE, user.getRole());
+	// INSERT
+	/**
+	 * Insert user table
+	 * @param user
+	 * @return uID
+	 */
+	public long insertUser(User user) {
+		// Create a new map of values, where column names are the keys
+		ContentValues values = new ContentValues();
+		values.put(FeedEntry.COLUMN_EMAIL, user.getEmail());
+		values.put(FeedEntry.COLUMN_USERNAME, user.getUsername());
+		values.put(FeedEntry.COLUMN_PASSWORD, user.getPassword());
+		values.put(FeedEntry.COLUMN_PHONE, user.getPhoneNo());
+		values.put(FeedEntry.COLUMN_BIRTH, getDate(user.getDateOfBirth()));
+		values.put(FeedEntry.COLUMN_GENDER, user.getGender());
+		values.put(FeedEntry.COLUMN_ROLE, user.getRole());
 		  
-		  // Insert the new row, returning the primary key value of the new row
-		  db.insertWithOnConflict(FeedEntry.TABLE_USER, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-	  }
+		// Insert the new row, returning the primary key value of the new row
+		return db.insertWithOnConflict(FeedEntry.TABLE_USER, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+	}
 	  
-	  /**
-	   * Insert data table
-	   * @param data
-	   */
-	  public void insertData(Data data) {
-		  // Create a new map of values, where column names are the keys
-		  ContentValues values = new ContentValues();
-		  values.put(FeedEntry.COLUMN_TIME, data.getTime().toString());
-		  values.put(FeedEntry.COLUMN_BG, data.getBg());
-		  values.put(FeedEntry.COLUMN_INSULIN, data.getInsulin());
-		  values.put(FeedEntry.COLUMN_UID, data.getUserId());
-		  
-		  // Insert the new row, returning the primary key value of the new row
-		  db.insertWithOnConflict(FeedEntry.TABLE_DATA, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-	  }
+	/**
+	 * Insert data table
+	 * @param data
+	 * @return dID
+	 */
+	public long insertData(Data data) {
+		// Create a new map of values, where column names are the keys
+		ContentValues values = new ContentValues();
+		values.put(FeedEntry.COLUMN_TIME, getDateTime(data.getTime()));
+		values.put(FeedEntry.COLUMN_BG, data.getBg());
+		values.put(FeedEntry.COLUMN_INSULIN, data.getInsulin());
+		values.put(FeedEntry.COLUMN_UID, data.getUserId());
+		
+		// Insert the new row, returning the primary key value of the new row
+		return db.insertWithOnConflict(FeedEntry.TABLE_DATA, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+	}
 	  
-	  /**
-	   * Insert message table
-	   * @param message
-	   */
-	  public void insertMessage(Message message) {
-		  // Create a new map of values, where column names are the keys
-		  ContentValues values = new ContentValues();
-		  values.put(FeedEntry.COLUMN_TALK, message.getContent());
-		  values.put(FeedEntry.COLUMN_UID, message.getUserId());
-		  
-		  // Insert the new row, returning the primary key value of the new row
-		  db.insertWithOnConflict(FeedEntry.TABLE_MESSAGE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-	  }
+	/**
+	 * Insert message table
+	 * @param message
+	 * @return mID
+	 */
+	public long insertMessage(Message message) {
+		// Create a new map of values, where column names are the keys
+		ContentValues values = new ContentValues();
+		values.put(FeedEntry.COLUMN_TALK, message.getContent());
+		values.put(FeedEntry.COLUMN_UID, message.getUserId());
+		
+		// Insert the new row, returning the primary key value of the new row
+		return db.insertWithOnConflict(FeedEntry.TABLE_MESSAGE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+	}
+	
+	/**
+	 * Insert chat_message table
+	 * @param dID is data ID
+	 * @param mID is message ID
+	 * @return chat_message ID
+	 */
+	public long insertChatMessage(long dID, long mID) {
+		// Create a new map of values, where column names are the keys
+		ContentValues values = new ContentValues();
+		values.put(FeedEntry.COLUMN_DID, dID);
+		values.put(FeedEntry.COLUMN_MID, mID);
+		
+		// Insert the new row, returning the primary key value of the new row
+		return db.insertWithOnConflict(FeedEntry.TABLE_CHAT_MESSAGE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+	}
 	  
-	  /**
-	   * Insert chat_message table
-	   * @param dID is data ID
-	   * @param mID is message ID
-	   */
-	  public void insertChatMessage(long dID, long mID) {
-		  // Create a new map of values, where column names are the keys
-		  ContentValues values = new ContentValues();
-		  values.put(FeedEntry.COLUMN_DID, dID);
-		  values.put(FeedEntry.COLUMN_MID, mID);
-		  
-		  // Insert the new row, returning the primary key value of the new row
-		  db.insertWithOnConflict(FeedEntry.TABLE_CHAT_MESSAGE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-	  }
+	/**
+	 * Insert the chat_user table
+	 * @param dID is data ID
+	 * @param uID is user ID
+	 * @return chat_user ID
+	 */
+	public long insertChatUser(long dID, long uID) {
+		// Create a new map of values, where column names are the keys
+		ContentValues values = new ContentValues();
+		values.put(FeedEntry.COLUMN_DID, dID);
+		values.put(FeedEntry.COLUMN_UID, uID);
+		 
+		// Insert the new row, returning the primary key value of the new row
+		return db.insertWithOnConflict(FeedEntry.TABLE_CHAT_USER, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+	}
 	  
-	  /**
-	   * Insert the chat_user table
-	   * @param dID is data ID
-	   * @param uID is user ID
-	   */
-	  public void insertChatUser(long dID, long uID) {
-		  // Create a new map of values, where column names are the keys
-		  ContentValues values = new ContentValues();
-		  values.put(FeedEntry.COLUMN_DID, dID);
-		  values.put(FeedEntry.COLUMN_UID, uID);
-		  
-		  // Insert the new row, returning the primary key value of the new row
-		  db.insertWithOnConflict(FeedEntry.TABLE_CHAT_USER, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-	  }
+	/**
+	 * Insert the friends table
+	 * Being cautious that the relationship may already exist
+	 * @param uID1
+	 * @param uID2
+	 * @return friends ID
+	 */
+	public long insertFriends(long uID1, long uID2) {
+		// Create a new map of values, where column names are the keys
+		ContentValues values = new ContentValues();
+		values.put(FeedEntry.COLUMN_UID_1, uID1);
+		values.put(FeedEntry.COLUMN_UID_2, uID2);
+		 
+		// Insert the new row, returning the primary key value of the new row
+		return db.insertWithOnConflict(FeedEntry.TABLE_FRIENDS, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+	}
 	  
-	  /**
-	   * Insert the friends table
-	   * Being cautious that the relationship may already exist
-	   * @param uID1
-	   * @param uID2
-	   */
-	  public void insertFriends(long uID1, long uID2) {
-		  // Create a new map of values, where column names are the keys
-		  ContentValues values = new ContentValues();
-		  values.put(FeedEntry.COLUMN_UID_1, uID1);
-		  values.put(FeedEntry.COLUMN_UID_2, uID2);
-		  
-		  // Insert the new row, returning the primary key value of the new row
-		  db.insertWithOnConflict(FeedEntry.TABLE_FRIENDS, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-	  }
+	/**
+	 * Insert the alert table
+	 * @param alert
+	 * @return aID
+	 */
+	public long insertAlert(Alert alert) {
+		// Create a new map of values, where column names are the keys
+		ContentValues values = new ContentValues();
+		values.put(FeedEntry.COLUMN_CONTENT, alert.getContent());
+		
+		// Insert the new row, returning the primary key value of the new row
+		return db.insertWithOnConflict(FeedEntry.TABLE_ALERT, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+	}
 	  
-	  /**
-	   * Insert the alert table
-	   * @param alert
-	   */
-	  public void insertAlert(Alert alert) {
-		  // Create a new map of values, where column names are the keys
-		  ContentValues values = new ContentValues();
-		  values.put(FeedEntry.COLUMN_CONTENT, alert.getContent());
-		  
-		  // Insert the new row, returning the primary key value of the new row
-		  db.insertWithOnConflict(FeedEntry.TABLE_ALERT, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-	  }
-	  
-	  /**
-	   * Insert alert_user table
-	   * @param alert
-	   * @param uID
-	   */
-	  public void insertAlertUser(Alert alert, long uID) {
-		  // Create a new map of values, where column names are the keys
-		  ContentValues values = new ContentValues();
-		  values.put(FeedEntry.COLUMN_AID, alert.getId());
-		  values.put(FeedEntry.COLUMN_UID, uID );
-		  values.put(FeedEntry.COLUMN_STATUS, alert.getStatus());
-		  
-		  // Insert the new row, returning the primary key value of the new row
-		  db.insertWithOnConflict(FeedEntry.TABLE_ALERT_USER, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-	  }
-	  
-	  
-	  
-	  
-	  // Continue Here!
-	  
-	 /**
-	 * Getting single student
-	 * @param studID
+	/**
+	 * Insert alert_user table
+	 * @param alert
+	 * @param uID
+	 * @return alert_user ID
+	 */
+	public long insertAlertUser(Alert alert, long uID) {
+		// Create a new map of values, where column names are the keys
+		ContentValues values = new ContentValues();
+		values.put(FeedEntry.COLUMN_AID, alert.getId());
+		values.put(FeedEntry.COLUMN_UID, uID );
+		values.put(FeedEntry.COLUMN_STATUS, alert.getStatus());
+		
+		// Insert the new row, returning the primary key value of the new row
+		return db.insertWithOnConflict(FeedEntry.TABLE_ALERT_USER, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+	}
+	
+	// Select
+	/**
+	 * Get one user from the database
+	 * @param email
 	 * @return
 	 */
-	public Student getStudent(String studID) {
-		  Cursor cursor = db.query(FeedEntry.TABLE_NAME, allColumns, 
-				  FeedEntry.COLUMN_NAME_ENTRY_ID + "=?", new String[] { studID }, null, null, null, null);
-		  if (cursor != null)
-			  cursor.moveToFirst();
- 
-		  Student student = new Student();
+	public User getUser(String email) {
+		Cursor cursor = db.query(FeedEntry.TABLE_USER, userColumns, 
+				FeedEntry.COLUMN_EMAIL + "=?", new String[] { email }, null, null, null, null);
+		if (cursor!=null && cursor.getColumnCount()==8)
+			cursor.moveToFirst();
+		else {
+			Log.d("User column num:", "" + cursor.getColumnCount());
+			return null;
+		}
 		  
-		  int sID = Integer.parseInt(cursor.getString(0));
-		  int score[] = new int[5];
-		  for(int i=1; i<6; ++i)
-			  score[i-1] = Integer.parseInt(cursor.getString(i));
+		User user = new User();
+		user.setId(cursor.getLong(0));
+		user.setEmail(cursor.getString(1));
+		user.setUsername(cursor.getString(2));
+		user.setPassword(cursor.getString(3));
+		user.setPhoneNo(cursor.getString(4));
+		try {
+			Date date;
+			date = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH).parse(cursor.getString(5));
+			user.setDateOfBirth(date);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	  
+		user.setGender(cursor.getString(6));
+		user.setRole(cursor.getString(7));
 		  
-		  student.setter(sID, score);
-		  return student;
-	  }
-	  
-	  /**
-	 * @return all students and score
+		return user;
+	}
+	
+	/**
+	 * Select one data
+	 * @param id
+	 * @return one data
 	 */
-	public ArrayList<Student> getAllStudents() {
-		  ArrayList<Student> studList = new ArrayList<Student>();
-		  // Select All Query
-		  String selectQuery = "SELECT  * FROM " + FeedEntry.TABLE_NAME;
-	 
-		  Cursor cursor = db.rawQuery(selectQuery, null);
-	 
-		  // looping through all rows and adding to list
-		  if (cursor.moveToFirst()) {
-			  do {
-				  Student stud = new Student();
-				  int sID = Integer.parseInt(cursor.getString(1)); //First is normal ID
-				  int score[] = new int[5];
-				  for(int i=0; i<5; ++i)
-					  score[i] = Integer.parseInt(cursor.getString(i+2));
-				  
-				  stud.setter(sID, score);
-				  
-				  // Adding student to list
-				  studList.add(stud);
-	        } while (cursor.moveToNext());
-	    }
-	 
-	    return studList;
-	  }
-	  
+	public Data getData(long id) {
+		Cursor cursor = db.query(FeedEntry.TABLE_USER, userColumns, 
+				FeedEntry._ID + "=?", 
+				new String[] { String.valueOf(id) }, 
+				null, null, null, null);
+		if (cursor!=null)
+			cursor.moveToFirst();
+		else
+			return null;
+		
+		Data data = new Data();
+		data.setId(cursor.getLong(0));
+		try {
+			Date date;
+			date = new SimpleDateFormat("yyyy-mm-dd hh:mm", Locale.ENGLISH).
+					parse(cursor.getString(1));
+			data.setTime(date);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		data.setBg(cursor.getInt(2));
+		data.setInsulin(cursor.getInt(3));
+		data.setUserId(cursor.getLong(4));
+			  
+		return data;
+	}
+	
+	/**
+	 * Select all data by the user ID
+	 * @param uID
+	 * @return all data of one user
+	 */
+	public ArrayList<Data> getDataByUser(long uID) {
+		Cursor cursor = db.query(FeedEntry.TABLE_USER, userColumns, 
+				FeedEntry.COLUMN_UID + "=?", 
+				new String[] { String.valueOf(uID) }, 
+				null, null, FeedEntry.COLUMN_TIME, null);
+		if (cursor!=null)
+			cursor.moveToFirst();
+		else
+			return null;
+		  
+		ArrayList<Data> userData = new ArrayList<Data>();
+		  
+		do {
+			Data data = new Data();
+			data.setId(cursor.getLong(0));
+			try {
+				Date date;
+				date = new SimpleDateFormat("yyyy-mm-dd hh:mm", Locale.ENGLISH).
+						parse(cursor.getString(1));
+				data.setTime(date);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			data.setBg(cursor.getInt(2));
+			data.setInsulin(cursor.getInt(3));
+			data.setUserId(uID);
+			
+			userData.add(data);
+		} while(cursor.moveToNext());
+		  
+		return userData;
+	}
+	    
 	/**
 	 * Updating single contact
 	 * @param stud
@@ -283,80 +357,25 @@ public class TidepoolDbSource {
 		  db.delete(FeedEntry.TABLE_NAME, FeedEntry._ID + " = ?",
             new String[] { String.valueOf(id) });
 	}
-	  
+	
 	/**
-	 * Get the highest score of each quiz
-	 * @return
+	 * @param date
+	 * @return "yyyy-mm-dd"
 	 */
-	public int[] getHighScore() {
-		  int high[] = new int[5];
-		  
-		  for(int i=0; i<5; i++)
-			  high[i] = getHighScore(i+1);
-		  
-		  return high;
-	  }
-	  
-	  private int getHighScore(int i) {
-		  Cursor cursor = db.query(FeedEntry.TABLE_NAME, 
-				  new String[] { "MAX(Q" + i + ")" }, 
-				  null, null, null, null, null);
-		  try {
-			  cursor.moveToFirst();
-			  return cursor.getInt(0);
-		  } finally {
-			  cursor.close();
-		  }
-	  }
-	  
+	private String getDate(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(
+                "yyyy-mm-dd", Locale.getDefault());
+        return dateFormat.format(date);
+    }
+	
 	/**
-	 * Get the lowest score of each quiz
-	 * @return
+	 * @param date
+	 * @return "yyyy-mm-dd hh:mm:ss"
 	 */
-	public int[] getLowScore() {
-		  int low[] = new int[5];
-		  
-		  for(int i=0; i<5; i++)
-			  low[i] = getLowScore(i+1);
-		  
-		  return low;
-	  }
-	  
-	  private int getLowScore(int i) {
-		  Cursor cursor = db.query(FeedEntry.TABLE_NAME, 
-				  new String[] { "MIN(Q" + i + ")" }, 
-				  null, null, null, null, null);
-		  try {
-			  cursor.moveToFirst();
-			  return cursor.getInt(0);
-		  } finally {
-			  cursor.close();
-		  }
-	  }
-
-	/**
-	 * Get the average score of each quiz
-	 * @return
-	 */
-	public float[] getAvgScore() {
-		  float avg[] = new float[5];
-		  
-		  for(int i=0; i<5; i++)
-			  avg[i] = getAvgScore(i+1);
-		  
-		  return avg;
-	  }
-	  
-	  private float getAvgScore(int i) {
-		  Cursor cursor = db.query(FeedEntry.TABLE_NAME, 
-				  new String[] { "AVG(Q" + i + ")" }, 
-				  null, null, null, null, null);
-		  try {
-			  cursor.moveToFirst();
-			  return cursor.getFloat(0);
-		  } finally {
-			  cursor.close();
-		  }
-	  }
+	private String getDateTime(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(
+                "yyyy-mm-dd hh:mm", Locale.getDefault());
+        return dateFormat.format(date);
+    }
 
 }
