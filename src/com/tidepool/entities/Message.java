@@ -2,7 +2,7 @@ package com.tidepool.entities;
 
 public class Message {
 	private long id;
-	private int userId;
+	private long userId;
 	private String content;
 	
 	public long getId() {
@@ -11,10 +11,10 @@ public class Message {
 	public void setId(long id) {
 		this.id = id;
 	}
-	public int getUserId() {
+	public long getUserId() {
 		return userId;
 	}
-	public void setUserId(int userId) {
+	public void setUserId(long userId) {
 		this.userId = userId;
 	}
 	public String getContent() {

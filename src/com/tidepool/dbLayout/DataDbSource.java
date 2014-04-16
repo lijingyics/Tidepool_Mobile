@@ -124,7 +124,37 @@ public class DataDbSource {
 		  
 		return userData;
 	}
+	
+	/**
+	 * Update data table
+	 * @param data
+	 * @return
+	 */
+	public int updateData(Data data) {
+		SQLiteDatabase db = dbHelper.getWritableDatabase();
+		
+		ContentValues values = new ContentValues();
+		values.put(FeedEntry.COLUMN_TIME, getDateTime(data.getTime()));
+		values.put(FeedEntry.COLUMN_BG, data.getBg());
+		values.put(FeedEntry.COLUMN_INSULIN, data.getInsulin());
+		values.put(FeedEntry.COLUMN_UID, data.getUserId());
 
+		// updating row
+		return db.update(FeedEntry.TABLE_DATA, values, FeedEntry._ID + " = ?",
+				new String[] { String.valueOf(data.getId()) });
+	}
+
+	/**
+	 * Delete Data by id
+	 * @param id
+	 */
+	public void deleteData(int id) {
+		SQLiteDatabase db = dbHelper.getWritableDatabase();
+		
+		db.delete(FeedEntry.TABLE_DATA, FeedEntry._ID + " = ?",
+				new String[] { String.valueOf(id) });
+	}
+	
 	/**
 	 * @param date
 	 * @return "yyyy-mm-dd hh:mm:ss"

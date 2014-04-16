@@ -12,8 +12,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.tidepool.dbLayout.DatabaseContract.FeedEntry;
-import com.tidepool.entities.Alert;
-import com.tidepool.entities.Message;
 import com.tidepool.entities.User;
 
 public class UserDbSource {
@@ -92,6 +90,39 @@ public class UserDbSource {
 		user.setRole(cursor.getString(7));
 		  
 		return user;
+	}
+	
+	/**
+	 * Update user table
+	 * @param user
+	 * @return
+	 */
+	public int updateUser(User user) {
+		SQLiteDatabase db = dbHelper.getWritableDatabase();
+		
+		ContentValues values = new ContentValues();
+		values.put(FeedEntry.COLUMN_EMAIL, user.getEmail());
+		values.put(FeedEntry.COLUMN_USERNAME, user.getUsername());
+		values.put(FeedEntry.COLUMN_PASSWORD, user.getPassword());
+		values.put(FeedEntry.COLUMN_PHONE, user.getPhoneNo());
+		values.put(FeedEntry.COLUMN_BIRTH, getDate(user.getDateOfBirth()));
+		values.put(FeedEntry.COLUMN_GENDER, user.getGender());
+		values.put(FeedEntry.COLUMN_ROLE, user.getRole());
+		
+		// updating row
+		return db.update(FeedEntry.TABLE_USER, values, FeedEntry._ID + " = ?",
+				new String[] { String.valueOf(user.getId()) });
+	}
+
+	/**
+	 * Delete User by id
+	 * @param id
+	 */
+	public void deleteUser(int id) {
+		SQLiteDatabase db = dbHelper.getWritableDatabase();
+		
+		db.delete(FeedEntry.TABLE_USER, FeedEntry._ID + " = ?",
+				new String[] { String.valueOf(id) });
 	}
 	
 	/**

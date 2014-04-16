@@ -21,11 +21,7 @@ import android.util.Log;
 
 public class JoinTableDbSource {
 	private TidepoolDbHelper dbHelper;
-	  
-	private String[] messageColumns = { 
-		  FeedEntry._ID,
-		  FeedEntry.COLUMN_TALK, 
-		  FeedEntry.COLUMN_UID };
+	
 	  
 	private String[] chatmessageColumns = { 
 		  FeedEntry._ID,
@@ -41,8 +37,6 @@ public class JoinTableDbSource {
 		  FeedEntry._ID,
 		  FeedEntry.COLUMN_UID_1, 
 		  FeedEntry.COLUMN_UID_2 };
-	  
-	
 	 
 	private String[] alertuserColumns = {
 		  FeedEntry._ID,
