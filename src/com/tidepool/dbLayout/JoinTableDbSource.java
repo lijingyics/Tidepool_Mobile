@@ -142,7 +142,7 @@ public class JoinTableDbSource {
 	 * @param id
 	 * @return
 	 */
-	public int updateScore(Student stud, int id) {
+	/*public int updateScore(Student stud, int id) {
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
 		
 		  ContentValues values = new ContentValues();
@@ -156,18 +156,18 @@ public class JoinTableDbSource {
 		  // updating row
 		  return db.update(FeedEntry.TABLE_NAME, values, FeedEntry._ID + " = ?",
 				  new String[] { String.valueOf(id) });
-	 }
+	 }*/
 	 
 	/**
 	 * Deleting single contact
 	 * @param id
 	 */
-	public void deleteScore(int id) {
+	/*public void deleteScore(int id) {
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
 		
 		  db.delete(FeedEntry.TABLE_NAME, FeedEntry._ID + " = ?",
             new String[] { String.valueOf(id) });
-	}
+	}*/
 	
 	
 	

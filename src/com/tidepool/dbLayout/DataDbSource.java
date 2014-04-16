@@ -28,6 +28,8 @@ public class DataDbSource {
 		dbHelper = new TidepoolDbHelper(context);
 	}
 	
+	public void close() { dbHelper.close(); }
+	
 	/**
 	 * Insert data table
 	 * @param data

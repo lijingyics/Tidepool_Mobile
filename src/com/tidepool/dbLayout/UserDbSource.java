@@ -32,6 +32,8 @@ public class UserDbSource {
 	public UserDbSource(Context context) {
 		dbHelper = new TidepoolDbHelper(context);
 	}
+	
+	public void close() { dbHelper.close();}
 
 	/**
 	 * Insert user table
