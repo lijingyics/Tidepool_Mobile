@@ -46,7 +46,7 @@ public class DataDbSource {
 		values.put(FeedEntry.COLUMN_UID, data.getUserId());
 		
 		// Insert the new row, returning the primary key value of the new row
-		return db.insertWithOnConflict(FeedEntry.TABLE_DATA, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+		return db.insertWithOnConflict(FeedEntry.TABLE_DATA, null, values, SQLiteDatabase.CONFLICT_IGNORE);
 	}
 	
 	/**

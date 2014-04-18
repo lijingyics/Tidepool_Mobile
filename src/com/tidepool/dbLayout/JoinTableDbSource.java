@@ -67,7 +67,7 @@ public class JoinTableDbSource {
 		values.put(FeedEntry.COLUMN_MID, mID);
 		
 		// Insert the new row, returning the primary key value of the new row
-		long id = db.insertWithOnConflict(FeedEntry.TABLE_CHAT_MESSAGE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+		long id = db.insertWithOnConflict(FeedEntry.TABLE_CHAT_MESSAGE, null, values, SQLiteDatabase.CONFLICT_IGNORE);
 		db.close();
 		
 		return id;
@@ -88,7 +88,7 @@ public class JoinTableDbSource {
 		values.put(FeedEntry.COLUMN_UID, uID);
 		 
 		// Insert the new row, returning the primary key value of the new row
-		return db.insertWithOnConflict(FeedEntry.TABLE_CHAT_USER, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+		return db.insertWithOnConflict(FeedEntry.TABLE_CHAT_USER, null, values, SQLiteDatabase.CONFLICT_IGNORE);
 	}
 	  
 	/**
@@ -107,7 +107,7 @@ public class JoinTableDbSource {
 		values.put(FeedEntry.COLUMN_UID_2, uID2);
 		 
 		// Insert the new row, returning the primary key value of the new row
-		return db.insertWithOnConflict(FeedEntry.TABLE_FRIENDS, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+		return db.insertWithOnConflict(FeedEntry.TABLE_FRIENDS, null, values, SQLiteDatabase.CONFLICT_IGNORE);
 	}
 	  
 	/**
@@ -126,7 +126,22 @@ public class JoinTableDbSource {
 		values.put(FeedEntry.COLUMN_STATUS, alert.getStatus());
 		
 		// Insert the new row, returning the primary key value of the new row
-		return db.insertWithOnConflict(FeedEntry.TABLE_ALERT_USER, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+		return db.insertWithOnConflict(FeedEntry.TABLE_ALERT_USER, null, values, SQLiteDatabase.CONFLICT_IGNORE);
+	}
+	
+	public ArrayList<User> getFriends(long id) {
+		ArrayList<User> friends = new ArrayList<User>();
+		String query1 = "SELECT * FROM " + FeedEntry.TABLE_USER + " a " +
+				"INNER JOIN " + FeedEntry.TABLE_FRIENDS + " b ON a._id = b.user_id1" +
+				" WHERE b.user_id2 =?";
+		
+		String query2 = "SELECT * FROM table_user a " +
+				"INNER JOIN table_friends b ON a.id = b.uid2" +
+				" WHERE b.uid1 = id";
+		
+		
+		
+		return friends;
 	}
 	
 	    

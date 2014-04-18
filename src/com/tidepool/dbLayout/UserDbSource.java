@@ -2,6 +2,7 @@ package com.tidepool.dbLayout;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -52,7 +53,7 @@ public class UserDbSource {
 		values.put(FeedEntry.COLUMN_ROLE, user.getRole());
 		  
 		// Insert the new row, returning the primary key value of the new row
-		return db.insertWithOnConflict(FeedEntry.TABLE_USER, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+		return db.insertWithOnConflict(FeedEntry.TABLE_USER, null, values, SQLiteDatabase.CONFLICT_IGNORE);
 	}
 	
 	/**
@@ -90,6 +91,37 @@ public class UserDbSource {
 		user.setRole(cursor.getString(7));
 		  
 		return user;
+	}
+	
+	public ArrayList<User> getAllUser() {
+		SQLiteDatabase db = dbHelper.getReadableDatabase();
+		
+		ArrayList<User> userList = new ArrayList<User>();
+		  // Select All Query
+		String selectQuery = "SELECT  * FROM " + FeedEntry.TABLE_USER;
+	 
+		Cursor cursor = db.rawQuery(selectQuery, null);
+		Log.d("Total user: ", "" + cursor.getCount());
+		
+		// looping through all rows and adding to list
+		if (cursor.moveToFirst()) {
+			do {
+				User user = new User();
+				user.setId(cursor.getLong(0));
+				user.setEmail(cursor.getString(1));
+				user.setUsername(cursor.getString(2));
+				user.setPassword(cursor.getString(3));
+				user.setRole(cursor.getString(7));  
+
+				//For debug
+				Log.d("User: ", user.getId() + " " + user.getEmail() + " " + user.getRole());
+				
+				// Adding student to list
+				userList.add(user);
+	        } while (cursor.moveToNext());
+	    }
+	 
+	    return userList;
 	}
 	
 	/**
