@@ -78,7 +78,7 @@ public class UserDbSource {
 		user.setPhoneNo(cursor.getString(4));
 		try {
 			Date date;
-			date = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH).parse(cursor.getString(5));
+			date = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).parse(cursor.getString(5));
 			user.setDateOfBirth(date);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -113,9 +113,20 @@ public class UserDbSource {
 				user.setUsername(cursor.getString(2));
 				user.setPassword(cursor.getString(3));
 				user.setRole(cursor.getString(7));  
+				try {
+					Date date;
+					date = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).parse(cursor.getString(5));
+					user.setDateOfBirth(date);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
 				//For debug
-				Log.d("User: ", user.getId() + " " + user.getEmail() + " " + user.getRole());
+				Log.d("User: ", user.getId() + " " + 
+						user.getEmail() + " " + 
+						user.getRole() + " " + 
+						user.getDateOfBirth() );
 				
 				// Adding user to list
 				userList.add(user);
@@ -164,7 +175,7 @@ public class UserDbSource {
 	 */
 	private String getDate(Date date) {
         SimpleDateFormat dateFormat = new SimpleDateFormat(
-                "yyyy-mm-dd", Locale.getDefault());
+                "yyyy-MM-dd", Locale.getDefault());
         return dateFormat.format(date);
     }
 }

@@ -1,7 +1,8 @@
 package com.tidepool.activities;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import com.example.tidepool_mobile.R;
 import com.tidepool.dbLayout.AlertDbSource;
@@ -35,6 +36,7 @@ public class RegisterActivity extends Activity {
 		setContentView(R.layout.register_activity);
 		
 		//updateTable();
+		
 		/*dummyUserDatabase();
 		dummyDataDatabase();
 		dummyMessageDatabase();
@@ -56,15 +58,21 @@ public class RegisterActivity extends Activity {
 	public void dummyUserDatabase() {
 		UserDbSource userHelper = new UserDbSource(this);
 		User dummy1 = new User();
-		Date birth = new Date(0);
 		
 		Log.d("Insert: ", "Inserting ..");
-		dummy1.setEmail("dummy2@example.com");
-		dummy1.setUsername("dummy2");
+		dummy1.setEmail("dummy3@example.com");
+		dummy1.setUsername("dummy3");
 		dummy1.setPassword("123456789");
-		dummy1.setDateOfBirth(birth);
+		try {
+			dummy1.setDateOfBirth(new SimpleDateFormat( "yyyy-MM-dd" ).
+					parse( "2009-10-20" ));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		dummy1.setGender("M");
 		dummy1.setRole("PAT");
+		dummy1.setId(3);
 		
 		userHelper.insertUser(dummy1);
 		Log.d("Username: ", dummy1.getUsername());
@@ -83,10 +91,16 @@ public class RegisterActivity extends Activity {
 	public void dummyDataDatabase() {
 		DataDbSource dataHelper = new DataDbSource(this);
 		Data data = new Data();
-		Date time = new Date();
 		
 		Log.d("Insert: ", "Inserting ..");
-		data.setTime(time);
+		try {
+			data.setTime(new SimpleDateFormat( "yyyy-MM-dd HH:mm" ).
+					parse( "2013-04-27 10:00" ));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		data.setId(5);
 		data.setBg(130);
 		data.setInsulin(0);
 		data.setUserId(user.getId());

@@ -8,7 +8,6 @@ import java.util.Locale;
 
 import com.tidepool.dbLayout.DatabaseContract.FeedEntry;
 import com.tidepool.entities.Data;
-import com.tidepool.entities.User;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -70,7 +69,7 @@ public class DataDbSource {
 		data.setId(cursor.getLong(0));
 		try {
 			Date date;
-			date = new SimpleDateFormat("yyyy-mm-dd hh:mm", Locale.ENGLISH).
+			date = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.ENGLISH).
 					parse(cursor.getString(1));
 			data.setTime(date);
 		} catch (ParseException e) {
@@ -105,7 +104,7 @@ public class DataDbSource {
 			data.setId(cursor.getLong(0));
 			try {
 				Date date;
-				date = new SimpleDateFormat("yyyy-mm-dd hh:mm", Locale.ENGLISH).
+				date = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.ENGLISH).
 						parse(cursor.getString(1));
 				data.setTime(date);
 			} catch (ParseException e) {
@@ -143,7 +142,7 @@ public class DataDbSource {
 				data.setId(cursor.getLong(0));
 				try {
 					Date date;
-					date = new SimpleDateFormat("yyyy-mm-dd hh:mm", Locale.ENGLISH).
+					date = new SimpleDateFormat("yyyy-MM-dd hh:mm", Locale.ENGLISH).
 							parse(cursor.getString(1));
 					data.setTime(date);
 				} catch (ParseException e) {
@@ -204,7 +203,7 @@ public class DataDbSource {
 	 */
 	private String getDateTime(Date date) {
         SimpleDateFormat dateFormat = new SimpleDateFormat(
-                "yyyy-mm-dd hh:mm", Locale.getDefault());
+                "yyyy-MM-dd HH:mm", Locale.getDefault());
         return dateFormat.format(date);
     }
 }
