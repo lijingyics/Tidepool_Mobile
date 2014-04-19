@@ -1,6 +1,12 @@
 package com.tidepool.activities;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 import com.example.tidepool_mobile.R;
+import com.tidepool.dbLayout.DataDbSource;
+import com.tidepool.dbLayout.UserDbSource;
+import com.tidepool.entities.User;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -29,6 +35,22 @@ public class LoginActivity extends Activity {
 		 
 		button.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View arg0) {
+				UserDbSource userSource = new UserDbSource(LoginActivity.this);
+				User user = new User();
+				user.setEmail("becky@gmail.com");
+				user.setGender("female");
+				user.setPassword("pwd");
+				user.setPhoneNo("123");
+				user.setRole("patient");
+				user.setUsername("becky");
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+				String dateStr = "1992-01-01";
+				try {
+					user.setDateOfBirth(formatter.parse(dateStr));
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				userSource.insertUser(user);
 				Intent i = new Intent(LoginActivity.this, MainActivity.class);
 				startActivityForResult(i, 0);
 			}
