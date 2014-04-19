@@ -6,7 +6,7 @@
 *.dex
 
 # Java class files
-*.class
+# *.class
 
 # Generated files
 bin/
@@ -23,6 +23,6 @@ local.properties
 proguard/
 
 ic_launcher-web.png
-libs/
+# libs/
 proguard-project.txt
 project.properties
