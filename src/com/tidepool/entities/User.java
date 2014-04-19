@@ -1,6 +1,6 @@
 package com.tidepool.entities;
 
-import java.sql.Date;
+import java.util.Date;
 
 
 public class User {
@@ -32,7 +32,7 @@ public class User {
 		}
 	}
 	
-	private int id;
+	private long id;
 	private String email;
 	private String username;
 	private String password;
@@ -40,10 +40,10 @@ public class User {
 	private Date dateOfBirth;
 	private String gender;
 	private String role;
-	public int getId() {
+	public long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	public String getEmail() {
