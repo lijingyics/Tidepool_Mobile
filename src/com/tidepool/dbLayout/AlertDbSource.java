@@ -13,11 +13,14 @@ public class AlertDbSource {
 	
 	private String[] alertColumns = {
 			  FeedEntry._ID,
-			  FeedEntry.COLUMN_CONTENT };
+			  FeedEntry.COLUMN_CONTENT,
+			  FeedEntry.COLUMN_DID };
 	
 	public AlertDbSource(Context context) {
 		dbHelper = new TidepoolDbHelper(context);
 	}
+	
+	public void close() { dbHelper.close(); }
 	
 	/**
 	 * Insert the alert table
@@ -30,6 +33,7 @@ public class AlertDbSource {
 		// Create a new map of values, where column names are the keys
 		ContentValues values = new ContentValues();
 		values.put(FeedEntry.COLUMN_CONTENT, alert.getContent());
+		values.put(FeedEntry.COLUMN_DID, alert.getDataId());
 		
 		// Insert the new row, returning the primary key value of the new row
 		return db.insertWithOnConflict(FeedEntry.TABLE_ALERT, null, values, SQLiteDatabase.CONFLICT_IGNORE);
@@ -47,14 +51,13 @@ public class AlertDbSource {
 				FeedEntry._ID + "=?", 
 				new String[] { String.valueOf(id) }, 
 				null, null, null, null);
-		if (cursor!=null)
-			cursor.moveToFirst();
-		else
+		if (!cursor.moveToFirst())
 			return null;
 		
 		Alert alert = new Alert();
 		alert.setId(cursor.getLong(0));
 		alert.setContent(cursor.getString(1));
+		alert.setDataId(cursor.getLong(2));
 		
 		return alert;
 	}
@@ -64,11 +67,12 @@ public class AlertDbSource {
 	 * @param alert
 	 * @return
 	 */
-	public int updateMessage(Alert alert) {
+	public int updateAlert(Alert alert) {
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
 		
 		ContentValues values = new ContentValues();
 		values.put(FeedEntry.COLUMN_CONTENT, alert.getContent());
+		values.put(FeedEntry.COLUMN_DID, alert.getDataId());
 		
 		// updating row
 		return db.update(FeedEntry.TABLE_ALERT, values, FeedEntry._ID + " = ?",

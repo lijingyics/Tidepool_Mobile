@@ -66,12 +66,9 @@ public class UserDbSource {
 		
 		Cursor cursor = db.query(FeedEntry.TABLE_USER, userColumns, 
 				FeedEntry.COLUMN_EMAIL + "=?", new String[] { email }, null, null, null, null);
-		if (cursor!=null && cursor.getColumnCount()==8)
-			cursor.moveToFirst();
-		else {
-			Log.d("User column num:", "" + cursor.getColumnCount());
+		
+		if ( !cursor.moveToFirst())
 			return null;
-		}
 		  
 		User user = new User();
 		user.setId(cursor.getLong(0));
@@ -93,6 +90,10 @@ public class UserDbSource {
 		return user;
 	}
 	
+	/**
+	 * Used for debug
+	 * @return
+	 */
 	public ArrayList<User> getAllUser() {
 		SQLiteDatabase db = dbHelper.getReadableDatabase();
 		
@@ -116,7 +117,7 @@ public class UserDbSource {
 				//For debug
 				Log.d("User: ", user.getId() + " " + user.getEmail() + " " + user.getRole());
 				
-				// Adding student to list
+				// Adding user to list
 				userList.add(user);
 	        } while (cursor.moveToNext());
 	    }

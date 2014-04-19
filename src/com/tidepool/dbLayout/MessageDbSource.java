@@ -48,17 +48,15 @@ public class MessageDbSource {
 	 */
 	public Message getMessage(long id) {
 		SQLiteDatabase db = dbHelper.getReadableDatabase();
+		Message msg = new Message();
 		
 		Cursor cursor = db.query(FeedEntry.TABLE_MESSAGE, messageColumns, 
 				FeedEntry._ID + "=?", 
 				new String[] { String.valueOf(id) }, 
 				null, null, null, null);
-		if (cursor!=null)
-			cursor.moveToFirst();
-		else
-			return null;
 		
-		Message msg = new Message();
+		if (!cursor.moveToFirst()) return null;
+		
 		msg.setId(cursor.getLong(0));
 		msg.setContent(cursor.getString(1));
 		msg.setUserId(cursor.getLong(2));

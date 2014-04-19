@@ -8,11 +8,13 @@ import java.util.Locale;
 
 import com.tidepool.dbLayout.DatabaseContract.FeedEntry;
 import com.tidepool.entities.Data;
+import com.tidepool.entities.User;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 public class DataDbSource {
 	private TidepoolDbHelper dbHelper;
@@ -61,12 +63,10 @@ public class DataDbSource {
 				FeedEntry._ID + "=?", 
 				new String[] { String.valueOf(id) }, 
 				null, null, null, null);
-		if (cursor!=null)
-			cursor.moveToFirst();
-		else
-			return null;
 		
 		Data data = new Data();
+		if(!cursor.moveToFirst()) return null;
+		
 		data.setId(cursor.getLong(0));
 		try {
 			Date date;
@@ -96,13 +96,10 @@ public class DataDbSource {
 				FeedEntry.COLUMN_UID + "=?", 
 				new String[] { String.valueOf(uID) }, 
 				null, null, FeedEntry.COLUMN_TIME, null);
-		if (cursor!=null)
-			cursor.moveToFirst();
-		else
-			return null;
 		  
 		ArrayList<Data> userData = new ArrayList<Data>();
-		  
+		if(!cursor.moveToFirst()) return userData;
+		
 		do {
 			Data data = new Data();
 			data.setId(cursor.getLong(0));
@@ -123,6 +120,52 @@ public class DataDbSource {
 		} while(cursor.moveToNext());
 		  
 		return userData;
+	}
+	
+	/**
+	 * Used for debug
+	 * @return
+	 */
+	public ArrayList<Data> getAllData() {
+		SQLiteDatabase db = dbHelper.getReadableDatabase();
+		
+		ArrayList<Data> dataList = new ArrayList<Data>();
+		  // Select All Query
+		String selectQuery = "SELECT  * FROM " + FeedEntry.TABLE_DATA;
+	 
+		Cursor cursor = db.rawQuery(selectQuery, null);
+		Log.d("Total data: ", "" + cursor.getCount());
+		
+		// looping through all rows and adding to list
+		if (cursor.moveToFirst()) {
+			do {
+				Data data = new Data();
+				data.setId(cursor.getLong(0));
+				try {
+					Date date;
+					date = new SimpleDateFormat("yyyy-mm-dd hh:mm", Locale.ENGLISH).
+							parse(cursor.getString(1));
+					data.setTime(date);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				data.setBg(cursor.getInt(2));
+				data.setInsulin(cursor.getInt(3));
+				data.setUserId(cursor.getLong(4));
+				
+				//For debug
+				Log.d("Data: ", data.getId() + " " + 
+						data.getBg() + " " + 
+						data.getTime() + " " +
+						data.getUserId() );
+				
+				// Adding user to list
+				dataList.add(data);
+	        } while (cursor.moveToNext());
+	    }
+	 
+	    return dataList;
 	}
 	
 	/**

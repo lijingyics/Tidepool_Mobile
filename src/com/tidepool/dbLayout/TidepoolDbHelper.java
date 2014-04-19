@@ -106,7 +106,12 @@ public class TidepoolDbHelper extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_ALERT = "CREATE TABLE IF NOT EXISTS "
             + FeedEntry.TABLE_ALERT + "(" 
     		+ FeedEntry._ID + " INTEGER PRIMARY KEY,"
-            + FeedEntry.COLUMN_CONTENT + " TEXT" + ")";
+            + FeedEntry.COLUMN_CONTENT + " TEXT,"
+            + FeedEntry.COLUMN_DID + " INTEGER UNIQUE,"
+            + " FOREIGN KEY (" + FeedEntry.COLUMN_DID 
+				+ ") REFERENCES " + FeedEntry.TABLE_DATA 
+				+ "(" + FeedEntry._ID + ")" 
+				+ " ON DELETE CASCADE" + ")";
     
     //alert_user table
     private static final String CREATE_TABLE_ALERT_USER = "CREATE TABLE IF NOT EXISTS "

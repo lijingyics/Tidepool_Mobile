@@ -3,6 +3,7 @@ package com.tidepool.entities;
 public class Alert {
 	private long id;
 	private String content;
+	private long data_id;
 	private boolean status;
 	
 	public long getId() {
@@ -16,6 +17,12 @@ public class Alert {
 	}
 	public void setContent(String content) {
 		this.content = content;
+	}
+	public long getDataId() {
+		return data_id;
+	}
+	public void setDataId(long dId) {
+		this.data_id = dId;
 	}
 	public void setStatus(boolean s){
 		status = s;
