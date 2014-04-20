@@ -57,7 +57,7 @@ public class LoginActivity extends Activity {
 					e.printStackTrace();
 				}
 				userSourceDummy.insertUser(userDummy);
-				
+				userSourceDummy.getAllUser();
 				
 				DataDbSource dataSource = new DataDbSource(LoginActivity.this);
 				Data data1 = new Data();
@@ -71,7 +71,7 @@ public class LoginActivity extends Activity {
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
-				data1.setUserId(1);
+				data1.setUserId(4);
 				
 				Data data2 = new Data();
 				data2.setBg(20);
@@ -83,10 +83,11 @@ public class LoginActivity extends Activity {
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
-				data2.setUserId(1);
+				data2.setUserId(4);
 				
-				dataSource.insertData(data1);
-				dataSource.insertData(data2);
+				//dataSource.insertData(data1);
+				//dataSource.insertData(data2);
+				dataSource.getAllData();
 				
 				// Get all inputs from login form
 				EditText email = (EditText)findViewById(R.id.login_email);

@@ -25,7 +25,7 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="email">Email</string>
     <string name="phonenum">Phone number</string>
-    <string name="birth">Date of Birth</string>
+    <string name="birth">Date of Birth yyyy-mm-dd</string>
     <string name="male">Male</string>
     <string name="female">Female</string>
     <string name="patient">Patient</string>
