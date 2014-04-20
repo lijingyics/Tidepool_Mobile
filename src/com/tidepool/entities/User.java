@@ -4,42 +4,16 @@ import java.util.Date;
 
 
 public class User {
-	public enum Gender {
-		FEMALE("F"), MALE("M");
-	 
-		private String gender;
-	 
-		private Gender(String g) {
-			gender = g;
-		}
-	 
-		public String getGender() {
-			return gender;
-		}
-	}
-	
-	public enum Role {
-		PATIENT("PAT"), PARENT("PAR");
-	 
-		private String role;
-	 
-		private Role(String r) {
-			role = r;
-		}
-	 
-		public String getRole() {
-			return role;
-		}
-	}
-	
 	private long id;
 	private String email;
 	private String username;
 	private String password;
+	private String confirmPwd;
 	private String phoneNo;
 	private Date dateOfBirth;
 	private String gender;
 	private String role;
+	
 	public long getId() {
 		return id;
 	}
@@ -64,6 +38,12 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	public String getConfirmPwd() {
+		return confirmPwd;
+	}
+	public void setConfirmPwd(String confirmPwd) {
+		this.confirmPwd = confirmPwd;
+	}
 	public String getPhoneNo() {
 		return phoneNo;
 	}
@@ -87,6 +67,15 @@ public class User {
 	}
 	public void setRole(String role) {
 		this.role = role;
+	}
+	
+	public boolean validate() {
+		if(email == null || username == null || password == null || role == null)
+			return false;
+		if(confirmPwd == null || !password.equals(confirmPwd))
+			return false;
+		
+		return true;
 	}
 	
 	
