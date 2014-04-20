@@ -56,6 +56,7 @@
     <!-- Monitor -->
 	<string name="title_blood_glucose">Blood Glucose</string>
 	<string name="title_insulin">Insulin</string>
+	<string name="title_time">Time</string>
 	<string name="view">View</string>
 	<string name="location">Current Location</string>
 	<string name="chatting">Start Chatting</string>

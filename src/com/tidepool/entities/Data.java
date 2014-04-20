@@ -1,8 +1,9 @@
 package com.tidepool.entities;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Data {
+public class Data implements Serializable {
 	private long id;
 	private Date time;
 	private int bg;

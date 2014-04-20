@@ -5,10 +5,10 @@
     android:orientation="vertical" >
     
     <TextView
+        android:id="@+id/title_name_value"
 	  android:layout_width="match_parent"
 	  android:layout_height="wrap_content"
-	  android:gravity="center"
-	  android:text="Becky" />
+	  android:gravity="center" />
 	
     <TableLayout
         android:layout_width="match_parent"
@@ -29,11 +29,11 @@
 	           android:gravity="left" 
 	           android:paddingRight="5dp"></TextView>
 	        <TextView 
+	           android:id="@+id/bg_value"
 	           android:layout_width="wrap_content" 
 	           android:layout_height="wrap_content" 
 	           android:textColor="#000" 
 	           android:gravity="left"
-	           android:text="175"
 	           android:layout_marginLeft="32dp"
 	           android:paddingRight="5dp" />
 	    </TableRow>
@@ -51,12 +51,12 @@
 	           android:gravity="left" 
 	           android:paddingRight="5dp"></TextView>
 	        <TextView 
+	            android:id="@+id/insulin_value"
 	           android:layout_width="wrap_content" 
 	           android:layout_height="wrap_content" 
 	           android:textColor="#000" 
 	           android:gravity="left" 
 	           android:layout_marginLeft="32dp"
-	           android:text="0"
 	           android:paddingRight="5dp"></TextView>
 	    </TableRow>
         
@@ -68,16 +68,16 @@
 	        <TextView 
 	           android:layout_width="wrap_content" 
 	           android:layout_height="wrap_content" 
-	           android:text="13:10" 
+	           android:text="@string/title_time" 
 	           android:textColor="#000" 
 	           android:gravity="left" 
 	           android:paddingRight="5dp"></TextView>
 	        <TextView 
+	            android:id="@+id/time_value"
 	           android:layout_width="wrap_content" 
 	           android:layout_height="wrap_content" 
 	           android:textColor="#000"
 	           android:layout_marginLeft="32dp"
-	           android:text="03/15/2014" 
 	           android:gravity="left" 
 	           android:paddingRight="5dp"></TextView>
 	    </TableRow>
@@ -101,10 +101,10 @@
 	        android:layout_height="match_parent" 
 	        android:layout_width="match_parent">
 		    <TextView
+		        android:id="@+id/current_time_value"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:gravity="left"
-		        android:hint="13:20 03/09/2014"
 		        android:paddingRight="5dp"
 		        android:textColor="#000" />
 	

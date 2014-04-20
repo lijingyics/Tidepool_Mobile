@@ -136,7 +136,6 @@ public class TidepoolDbHelper extends SQLiteOpenHelper {
     }
     
     public void onCreate(SQLiteDatabase db) {
-    	Log.d("DEBUG", "create tables");
         db.execSQL(CREATE_TABLE_USER);
         db.execSQL(CREATE_TABLE_DATA);
         //db.execSQL(CREATE_TABLE_CHAT);
