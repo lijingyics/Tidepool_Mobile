@@ -38,12 +38,11 @@ public class MonitorFragment extends ListFragment {
 		}
 		else if(role.equals("parent")) {
 			// get all children of this parent
+			
 
 		}
 		UserAdapter adapter = new UserAdapter(users);
 		setListAdapter(adapter);
-
-		//setListAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, patients));
 	}
 
 	public void onListItemClick(ListView l, View v, int position, long id) {

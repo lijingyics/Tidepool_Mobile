@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -223,8 +224,10 @@ public class RegisterActivity extends Activity {
 				// Validate user 
 				if(!user.validate()) {
 					// Make a toast to the user
-					Toast.makeText(RegisterActivity.this,
-							"Double check your input", Toast.LENGTH_SHORT).show();
+					Toast toast = Toast.makeText(RegisterActivity.this,
+							"Double check your input", Toast.LENGTH_SHORT);
+					toast.setGravity(Gravity.CENTER, 0, 0);
+					toast.show();
 				}
 				else {
 					// Check whether user already exists
