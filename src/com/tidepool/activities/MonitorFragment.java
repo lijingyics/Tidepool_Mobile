@@ -47,12 +47,12 @@ public class MonitorFragment extends ListFragment {
 
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		User user = ((UserAdapter)getListAdapter()).getItem(position);
-		Intent i = new Intent(getActivity(), DataActivity.class);
+		Intent i = new Intent(getActivity(), DataPagerActivity.class);
 
 		DataDbSource dataSource = new DataDbSource(getActivity());
 		ArrayList<Data> datas = dataSource.getDataByUser(user.getId());
 		if(datas.size() > 0) {
-			i.putExtra("data", datas.get(0));
+			i.putExtra("datas", datas);
 			i.putExtra("username", user.getUsername());
 			startActivityForResult(i, 0);
 		}

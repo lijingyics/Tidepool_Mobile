@@ -3,87 +3,116 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
+
     <TextView
         android:id="@+id/title_name_value"
-	  android:layout_width="match_parent"
-	  android:layout_height="wrap_content"
-	  android:gravity="center" />
-	
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:textSize="30sp" />
+
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="5dp" >
-		
+
         <!-- tableRow0 -->
-	    <TableRow
-	        android:id="@+id/tableRow0"
-	        android:layout_height="wrap_content" 
-	        android:layout_width="match_parent">
-	        <TextView 
-	           android:layout_width="wrap_content" 
-	           android:layout_height="wrap_content" 
-	           android:text="@string/title_blood_glucose" 
-	           android:textColor="#000" 
-	           android:gravity="left" 
-	           android:paddingRight="5dp"></TextView>
-	        <TextView 
-	           android:id="@+id/bg_value"
-	           android:layout_width="wrap_content" 
-	           android:layout_height="wrap_content" 
-	           android:textColor="#000" 
-	           android:gravity="left"
-	           android:layout_marginLeft="32dp"
-	           android:paddingRight="5dp" />
-	    </TableRow>
-	    
-	    <!-- tableRow1 -->
-	    <TableRow
-	        android:id="@+id/tableRow1"
-	        android:layout_height="wrap_content" 
-	        android:layout_width="match_parent">
-	        <TextView 
-	           android:layout_width="wrap_content" 
-	           android:layout_height="wrap_content" 
-	           android:text="@string/title_insulin" 
-	           android:textColor="#000" 
-	           android:gravity="left" 
-	           android:paddingRight="5dp"></TextView>
-	        <TextView 
-	            android:id="@+id/insulin_value"
-	           android:layout_width="wrap_content" 
-	           android:layout_height="wrap_content" 
-	           android:textColor="#000" 
-	           android:gravity="left" 
-	           android:layout_marginLeft="32dp"
-	           android:paddingRight="5dp"></TextView>
-	    </TableRow>
-        
-	    <!-- tableRow2 -->
-	    <TableRow
-	        android:id="@+id/tableRow2"
-	        android:layout_height="wrap_content" 
-	        android:layout_width="match_parent">
-	        <TextView 
-	           android:layout_width="wrap_content" 
-	           android:layout_height="wrap_content" 
-	           android:text="@string/title_time" 
-	           android:textColor="#000" 
-	           android:gravity="left" 
-	           android:paddingRight="5dp"></TextView>
-	        <TextView 
-	            android:id="@+id/time_value"
-	           android:layout_width="wrap_content" 
-	           android:layout_height="wrap_content" 
-	           android:textColor="#000"
-	           android:layout_marginLeft="32dp"
-	           android:gravity="left" 
-	           android:paddingRight="5dp"></TextView>
-	    </TableRow>
-    
-	    <!-- TableRow3 -->
-	    <TableRow
+
+        <TableRow
+            android:id="@+id/tableRow0"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:paddingRight="5dp"
+                android:text="@string/title_blood_glucose"
+                android:textColor="#000"
+                android:textSize="20sp"
+                android:textStyle="bold" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/bg_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="32dp"
+                android:gravity="left"
+                android:paddingRight="5dp"
+                android:textColor="#000"
+                android:textSize="20sp" />
+        </TableRow>
+
+        <!-- tableRow1 -->
+
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:paddingRight="5dp"
+                android:text="@string/title_insulin"
+                android:textColor="#000"
+                android:textSize="20sp"
+                android:textStyle="bold" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/insulin_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="32dp"
+                android:gravity="left"
+                android:paddingRight="5dp"
+                android:textColor="#000"
+                android:textSize="20sp" >
+            </TextView>
+        </TableRow>
+
+        <!-- tableRow2 -->
+
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:paddingRight="5dp"
+                android:text="@string/title_time"
+                android:textColor="#000"
+                android:textSize="20sp"
+                android:textStyle="bold" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/time_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="32dp"
+                android:gravity="left"
+                android:paddingRight="5dp"
+                android:textColor="#000"
+                android:textSize="20sp" >
+            </TextView>
+        </TableRow>
+
+        <!-- TableRow3 -->
+        <!--
+        <TableRow
 		        android:id="@+id/tableRow3"
 		        android:layout_height="match_parent" 
 		        android:layout_width="match_parent"
@@ -94,35 +123,72 @@
    	        android:onClick="getLocation"
 	        android:text="@string/location" />
 	    </TableRow>
-	    
-	    <!-- TableRow4 -->
-	    <TableRow
-	        android:id="@+id/tableRow4"
-	        android:layout_height="match_parent" 
-	        android:layout_width="match_parent">
-		    <TextView
-		        android:id="@+id/current_time_value"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:gravity="left"
-		        android:paddingRight="5dp"
-		        android:textColor="#000" />
-	
-		    <Button
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_marginLeft="32dp"
-		        android:onClick="viewHistory"
-		        android:text="@string/view" />
+        -->
 
-	    </TableRow>
+
+        <!-- TableRow4 -->
+
+
+        <!--
+        <TableRow
+            android:id="@+id/tableRow4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/current_time_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:paddingRight="5dp"
+                android:textColor="#000"
+                android:textSize="20sp" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="32dp"
+                android:onClick="viewHistory"
+                android:text="@string/change_time" />
+        </TableRow>
+        -->
     </TableLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/change_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:onClick="viewHistory"
+            android:text="@string/change_date" />
+
+        <Button
+            android:id="@+id/change_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:onClick="viewHistory"
+            android:text="@string/change_time" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:onClick="getLocation"
+        android:text="@string/location" />
 
     <Button
         android:id="@+id/chatting"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:gravity="center"
         android:text="@string/chatting" />
-	    
+
 </LinearLayout>

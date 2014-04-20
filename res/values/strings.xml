@@ -57,8 +57,12 @@
 	<string name="title_blood_glucose">Blood Glucose</string>
 	<string name="title_insulin">Insulin</string>
 	<string name="title_time">Time</string>
-	<string name="view">View</string>
+	<string name="change_date">Change date</string>
+	<string name="change_time">Change Time</string>
 	<string name="location">Current Location</string>
 	<string name="chatting">Start Chatting</string>
+	<string name="date_picker_title">Choose a date</string>
+	<string name="time_picker_title">Choose a time</string>
+	
 
 </resources>

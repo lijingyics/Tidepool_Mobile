@@ -25,7 +25,6 @@ public class LoginActivity extends Activity {
 	Button button;
 	TextView text;
     
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -59,34 +58,35 @@ public class LoginActivity extends Activity {
 				}
 				userSourceDummy.insertUser(userDummy);
 				
-				DataDbSource dataSource = new DataDbSource(LoginActivity.this);
-				Data data1 = new Data();
-				data1.setBg(10);
-				data1.setChatId(1);
-				data1.setInsulin(0);
-				SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-				String timeStr = "2014-02-02 12:00";
-				try {
-					data1.setTime(formatter2.parse(timeStr));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-				data1.setUserId(1);
 				
-				Data data2 = new Data();
-				data2.setBg(20);
-				data2.setChatId(2);
-				data2.setInsulin(0);
-				String timeStr2 = "2014-02-02 12:05";
-				try {
-					data2.setTime(formatter2.parse(timeStr2));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-				data2.setUserId(1);
-				
-				dataSource.insertData(data1);
-				dataSource.insertData(data2);
+//				DataDbSource dataSource = new DataDbSource(LoginActivity.this);
+//				Data data1 = new Data();
+//				data1.setBg(10);
+//				data1.setChatId(1);
+//				data1.setInsulin(0);
+//				SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+//				String timeStr = "2014-02-02 12:00";
+//				try {
+//					data1.setTime(formatter2.parse(timeStr));
+//				} catch (ParseException e) {
+//					e.printStackTrace();
+//				}
+//				data1.setUserId(1);
+//				
+//				Data data2 = new Data();
+//				data2.setBg(20);
+//				data2.setChatId(2);
+//				data2.setInsulin(0);
+//				String timeStr2 = "2014-02-02 12:05";
+//				try {
+//					data2.setTime(formatter2.parse(timeStr2));
+//				} catch (ParseException e) {
+//					e.printStackTrace();
+//				}
+//				data2.setUserId(1);
+//				
+//				dataSource.insertData(data1);
+//				dataSource.insertData(data2);
 				
 				// Get all inputs from login form
 				EditText email = (EditText)findViewById(R.id.login_email);
