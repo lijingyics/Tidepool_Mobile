@@ -1,12 +1,11 @@
 package com.tidepool.activities;
 
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -20,24 +19,30 @@ import com.tidepool.dbLayout.DataDbSource;
 import com.tidepool.dbLayout.UserDbSource;
 import com.tidepool.entities.Data;
 import com.tidepool.entities.User;
+import com.tidepool.util.UserSession;
 
 public class LoginActivity extends Activity {
 	Button button;
 	TextView text;
-    
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		// Check whether user has already signed in
+		if(UserSession.isAdded(LoginActivity.this)) {
+			Intent i = new Intent(LoginActivity.this, MainActivity.class);
+			startActivityForResult(i, 0);
+		}
+
 		setContentView(R.layout.login_activity);
-		
 		addButtonListener();
 		addLinkListener();
 	}
-	
+
 	public void addButtonListener() {
 		button = (Button) findViewById(R.id.sign_in_button);
-		 
+
 		button.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View arg0) {
 				// insert dummy data into database
@@ -57,8 +62,13 @@ public class LoginActivity extends Activity {
 					e.printStackTrace();
 				}
 				userSourceDummy.insertUser(userDummy);
+<<<<<<< HEAD
 				userSourceDummy.getAllUser();
 				
+=======
+
+
+>>>>>>> f0de1827142281abf5e8a7814e941b37536507db
 				DataDbSource dataSource = new DataDbSource(LoginActivity.this);
 				Data data1 = new Data();
 				data1.setBg(10);
@@ -88,14 +98,14 @@ public class LoginActivity extends Activity {
 				//dataSource.insertData(data1);
 				//dataSource.insertData(data2);
 				dataSource.getAllData();
-				
+		
 				// Get all inputs from login form
 				EditText email = (EditText)findViewById(R.id.login_email);
 				EditText password = (EditText)findViewById(R.id.login_password);
-				
+
 				String emailStr = email.getText().toString();
 				String pwdStr = password.getText().toString();
-				
+
 				UserDbSource userSource = new UserDbSource(LoginActivity.this);
 				User user = userSource.getUser(emailStr);
 				if(user == null) {
@@ -112,31 +122,24 @@ public class LoginActivity extends Activity {
 				}
 				else {
 					// Remember user
-					SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
-					Editor editor = pref.edit();
-					editor.putString("email", user.getEmail());
-					editor.commit();
+					UserSession.addUser(LoginActivity.this, user);
+
 					Intent i = new Intent(LoginActivity.this, MainActivity.class);
 					startActivityForResult(i, 0);
 				}
 			}
 		});
 	}
-	
+
 	public void addLinkListener() {
 		text = (TextView)findViewById(R.id.register);
-		
+
 		text.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View arg0) {
 				Intent i = new Intent(LoginActivity.this, RegisterActivity.class);
 				startActivityForResult(i, 0);
 			}
- 
+
 		});
 	}
-	
-	
-	
-	
-
 }

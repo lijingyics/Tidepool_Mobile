@@ -6,8 +6,6 @@ import java.util.Date;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -21,6 +19,8 @@ import android.widget.Toast;
 import com.example.tidepool_mobile.R;
 import com.tidepool.dbLayout.UserDbSource;
 import com.tidepool.entities.User;
+import com.tidepool.util.Constant;
+import com.tidepool.util.UserSession;
 
 public class RegisterActivity extends Activity {
 	Button button;
@@ -36,143 +36,6 @@ public class RegisterActivity extends Activity {
 		addButtonListener();
 		addLinkListener();
 	}
-
-	//	public void updateTable() {
-	//		JoinTableDbSource join = new JoinTableDbSource(this);
-	//		
-	//		join.updateTable(2,3);
-	//		join.close();
-	//	}
-	//	
-	//	public void dummyUserDatabase() {
-	//		UserDbSource userHelper = new UserDbSource(this);
-	//		User dummy1 = new User();
-	//		
-	//		Log.d("Insert: ", "Inserting ..");
-	//		dummy1.setEmail("dummy3@example.com");
-	//		dummy1.setUsername("dummy3");
-	//		dummy1.setPassword("123456789");
-	//		try {
-	//			dummy1.setDateOfBirth(new SimpleDateFormat( "yyyy-MM-dd" ).
-	//					parse( "2009-10-20" ));
-	//		} catch (ParseException e) {
-	//			// TODO Auto-generated catch block
-	//			e.printStackTrace();
-	//		}
-	//		dummy1.setGender("M");
-	//		dummy1.setRole("PAT");
-	//		dummy1.setId(3);
-	//		
-	//		userHelper.insertUser(dummy1);
-	//		Log.d("Username: ", dummy1.getUsername());
-	//		Log.d("Date of birth: ", dummy1.getDateOfBirth().toString());
-	//		
-	//		// Read the user from database
-	//		Log.d("Reading:", "Reading...");
-	//		user = userHelper.getUser(dummy1.getEmail());
-	//		Log.d("Success reading new user! ", user.getUsername() + " " + user.getId());
-	//		Log.d("Birth: ", user.getDateOfBirth().toString());
-	//		
-	//		userHelper.getAllUser();
-	//		userHelper.close();
-	//	}
-	//	
-	//	public void dummyDataDatabase() {
-	//		DataDbSource dataHelper = new DataDbSource(this);
-	//		Data data = new Data();
-	//		
-	//		Log.d("Insert: ", "Inserting ..");
-	//		try {
-	//			data.setTime(new SimpleDateFormat( "yyyy-MM-dd HH:mm" ).
-	//					parse( "2013-04-27 10:00" ));
-	//		} catch (ParseException e) {
-	//			// TODO Auto-generated catch block
-	//			e.printStackTrace();
-	//		}
-	//		data.setId(5);
-	//		data.setBg(130);
-	//		data.setInsulin(0);
-	//		data.setUserId(user.getId());
-	//		
-	//		long id = dataHelper.insertData(data);
-	//		Log.d("Time: ", data.getTime().toString());
-	//		
-	//		// Read the user from database
-	//		Log.d("Reading:", "Reading...");
-	//		Data d = dataHelper.getData(id);
-	//		Log.d("Success! ", d.getTime() + " " + d.getId());
-	//		
-	//		
-	//		dataHelper.getAllData();
-	//		dataHelper.close();
-	//	}
-	//	
-	//	public void dummyMessageDatabase() {
-	//		MessageDbSource msgHelper = new MessageDbSource(this);
-	//		Message msg = new Message();
-	//		
-	//		Log.d("Insert: ", "Inserting ..");
-	//		msg.setContent("Test! Hello Chat Room 2th");
-	//		msg.setUserId(user.getId());
-	//		
-	//		long id = msgHelper.insertMessage(msg);
-	//		Log.d("Chat: ", msg.getContent());
-	//		
-	//		// Read the user from database
-	//		Log.d("Reading:", "Reading...");
-	//		Message m = msgHelper.getMessage(id);
-	//		Log.d("Success! ", m.getContent() + " " + m.getId());
-	//		
-	//		msgHelper.close();
-	//	}
-	//	
-	//	public void dummyAlertDatabase() {
-	//		AlertDbSource alertHelper = new AlertDbSource(this);
-	//		Alert alert = new Alert();
-	//		
-	//		Log.d("Insert: ", "Inserting ..");
-	//		alert.setContent("Too low BG! 2th");
-	//		alert.setDataId(2);
-	//		
-	//		long id = alertHelper.insertAlert(alert);
-	//		Log.d("Chat: ", alert.getContent());
-	//		
-	//		// Read the user from database
-	//		Log.d("Reading:", "Reading...");
-	//		Alert a = alertHelper.getAlert(id);
-	//		Log.d("Success! ", a.getContent() + ", data id:" + a.getDataId());
-	//		
-	//		alertHelper.close();
-	//	}
-	//	
-	//	public void testJoinTable() {
-	//		JoinTableDbSource joinHelper = new JoinTableDbSource(this);
-	//		
-	//		MessageDbSource msgHelper = new MessageDbSource(this);
-	//		Message m = msgHelper.getMessage(1);
-	//		Log.d("Message ", m.getContent() + " id: " + m.getId());
-	//		
-	//		long chat_message_id = joinHelper.insertChatMessage(1, 1);
-	//		long friend_id = joinHelper.insertFriends(1, 2);
-	//		long chat_user_id = joinHelper.insertChatUser(1, m.getUserId());
-	//		
-	//		// Test join friends
-	//		Log.d("Reading:", "Reading Relationship...");
-	//		ArrayList<User> userList = joinHelper.getFriends(user.getId());
-	//		Log.d("Find Friends: ", String.valueOf(userList.size()) );
-	//		
-	//		// Test join chat user
-	//		ArrayList<Message> msgList = joinHelper.getMessage(1);
-	//		Log.d("Find Friends: ", String.valueOf(msgList.size()) );
-	//		
-	//		// Test join chat user
-	//		ArrayList<Data> dataList = joinHelper.getChatRoom(m.getUserId());
-	//		Log.d("Find Friends: ", String.valueOf(dataList.size()) );
-	//		
-	//		
-	//		msgHelper.close();
-	//		joinHelper.close();
-	//	}
 
 	public void addButtonListener() {
 		button = (Button) findViewById(R.id.signup);
@@ -207,17 +70,25 @@ public class RegisterActivity extends Activity {
 				RadioGroup rgSex = (RadioGroup)findViewById(R.id.sex);
 				if(rgSex.getCheckedRadioButtonId()!=-1){
 					int id = rgSex.getCheckedRadioButtonId();
-					RadioButton radioBtn = (RadioButton)findViewById(id);
-					sex = (String)radioBtn.getText();
+					if(id == R.id.female) {
+						sex = Constant.FEMALE;
+					}
+					else {
+						sex = Constant.MALE;
+					}
 				}
 				user.setGender(sex);
 
 				String role = null;
 				RadioGroup rgRole = (RadioGroup)findViewById(R.id.usertype);
 				if(rgRole.getCheckedRadioButtonId()!=-1){
-					int id = rgSex.getCheckedRadioButtonId();
-					RadioButton radioBtn = (RadioButton)findViewById(id);
-					role = (String)radioBtn.getText();
+					int id = rgRole.getCheckedRadioButtonId();
+					if(id == R.id.patient) {
+						role = Constant.PATIENT;
+					}
+					else {
+						role = Constant.PARENT;
+					}
 				}
 				user.setRole(role);
 
@@ -237,10 +108,7 @@ public class RegisterActivity extends Activity {
 					userSource.insertUser(user);
 
 					// Remember current user
-					SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
-					Editor editor = pref.edit();
-					editor.putString("email", user.getEmail());
-					editor.commit();
+					UserSession.addUser(RegisterActivity.this, user);
 
 					Intent i = new Intent(RegisterActivity.this, MainActivity.class);
 					startActivityForResult(i, 0);
@@ -284,10 +152,10 @@ public class RegisterActivity extends Activity {
 			if (checked)
 				// userType = parent
 				break;
-		case R.id.doctor:
-			if (checked)
-				// userType = doctor
-				break;
+//		case R.id.doctor:
+//			if (checked)
+//				// userType = doctor
+//				break;
 		}
 	}
 

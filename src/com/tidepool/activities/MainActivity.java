@@ -63,10 +63,10 @@ public class MainActivity extends FragmentActivity {
 	            if (checked)
 	                // userType = parent
 	            break;
-	        case R.id.doctor:
-	            if (checked)
-	                // userType = doctor
-	            break;
+//	        case R.id.doctor:
+//	            if (checked)
+//	                // userType = doctor
+//	            break;
 	    }
 	}
 }
