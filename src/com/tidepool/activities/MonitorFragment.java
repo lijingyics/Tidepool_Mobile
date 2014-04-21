@@ -3,7 +3,6 @@ package com.tidepool.activities;
 import java.util.ArrayList;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
@@ -14,9 +13,10 @@ import android.widget.TextView;
 
 import com.example.tidepool_mobile.R;
 import com.tidepool.dbLayout.DataDbSource;
-import com.tidepool.dbLayout.UserDbSource;
 import com.tidepool.entities.Data;
 import com.tidepool.entities.User;
+import com.tidepool.util.Constant;
+import com.tidepool.util.UserSession;
 
 
 public class MonitorFragment extends ListFragment {
@@ -25,19 +25,16 @@ public class MonitorFragment extends ListFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
-		SharedPreferences pref = getActivity().getSharedPreferences("MyPref", 0); // 0 - for private mode
-		String email = pref.getString("email", "becky@gmail.com");
-
-		UserDbSource userSource = new UserDbSource(getActivity());
-		User user = userSource.getUser(email);
+		
+		User user = UserSession.getUser(this.getActivity());
 		String role = user.getRole();
 		users = new ArrayList<User>();
-		if(role.equals("patient")) {
+		if(role.equals(Constant.PATIENT)) {
 			users.add(user);
 		}
-		else if(role.equals("parent")) {
+		else if(role.equals(Constant.PARENT)) {
 			// get all children of this parent
+			
 			
 
 		}
