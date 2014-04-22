@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -19,16 +20,19 @@ import com.tidepool.dbLayout.DataDbSource;
 import com.tidepool.dbLayout.UserDbSource;
 import com.tidepool.entities.Data;
 import com.tidepool.entities.User;
+import com.tidepool.remote.ClientNode;
 import com.tidepool.util.UserSession;
 
 public class LoginActivity extends Activity {
 	Button button;
 	TextView text;
+	ClientNode client;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		client = new ClientNode();
 		// Check whether user has already signed in
 		if(UserSession.isAdded(LoginActivity.this)) {
 			Intent i = new Intent(LoginActivity.this, MainActivity.class);
@@ -62,13 +66,8 @@ public class LoginActivity extends Activity {
 					e.printStackTrace();
 				}
 				userSourceDummy.insertUser(userDummy);
-<<<<<<< HEAD
 				userSourceDummy.getAllUser();
-				
-=======
 
-
->>>>>>> f0de1827142281abf5e8a7814e941b37536507db
 				DataDbSource dataSource = new DataDbSource(LoginActivity.this);
 				Data data1 = new Data();
 				data1.setBg(10);
@@ -106,6 +105,10 @@ public class LoginActivity extends Activity {
 				String emailStr = email.getText().toString();
 				String pwdStr = password.getText().toString();
 
+				//Connect the Server
+				String test = "From tidepool client!";
+				client.sendMsg(test);
+				
 				UserDbSource userSource = new UserDbSource(LoginActivity.this);
 				User user = userSource.getUser(emailStr);
 				if(user == null) {
