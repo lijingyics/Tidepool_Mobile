@@ -84,8 +84,8 @@ public class JoinTableDbSource {
 		
 		// Create a new map of values, where column names are the keys
 		ContentValues values = new ContentValues();
-		values.put(FeedEntry.COLUMN_UID_1, uID1);
-		values.put(FeedEntry.COLUMN_UID_2, uID2);
+		values.put(FeedEntry.COLUMN_UID_1, (uID1<uID2? uID1:uID2));
+		values.put(FeedEntry.COLUMN_UID_2, (uID1>uID2? uID1:uID2));
 		 
 		// Insert the new row, returning the primary key value of the new row
 		return db.insertWithOnConflict(FeedEntry.TABLE_FRIENDS, null, values, SQLiteDatabase.CONFLICT_IGNORE);
@@ -327,8 +327,8 @@ public class JoinTableDbSource {
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
 		
 		ContentValues values = new ContentValues();
-		values.put(FeedEntry.COLUMN_UID_1, uID1);
-		values.put(FeedEntry.COLUMN_UID_2, uID2);
+		values.put(FeedEntry.COLUMN_UID_1, (uID1<uID2? uID1:uID2));
+		values.put(FeedEntry.COLUMN_UID_2, (uID1>uID2? uID1:uID2));
 		
 		// updating row
 		return db.update(FeedEntry.TABLE_FRIENDS, values, FeedEntry._ID + " = ?",
