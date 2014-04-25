@@ -111,6 +111,33 @@ public class JoinTableDbSource {
 	}
 	
 	/**
+	 * Get friends table id for delete or update
+	 * @param id1
+	 * @param id2
+	 * @return friends_id
+	 */
+	public long getFriends(long id1, long id2) {
+		SQLiteDatabase db = dbHelper.getReadableDatabase();
+		long id = -1;
+		
+		String query = "SELECT * FROM " + FeedEntry.TABLE_FRIENDS +
+				" WHERE user_id1=? AND user_id2=?";
+		
+		Cursor cursor;
+		if(id1<id2)
+			cursor = db.rawQuery(query, 
+					new String[] { String.valueOf(id1), String.valueOf(id2) });
+		else
+			cursor = db.rawQuery(query, 
+					new String[] { String.valueOf(id2), String.valueOf(id1) });
+			
+		if(cursor.moveToFirst()) 
+			id = cursor.getLong(0);
+		
+		return id;
+	}
+	
+	/**
 	 * Get friends from the friends table
 	 * Noted the return only includes user id, email, 
 	 * username, phone number and role
