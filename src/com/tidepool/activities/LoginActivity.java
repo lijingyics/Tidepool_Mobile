@@ -106,8 +106,7 @@ public class LoginActivity extends Activity {
 				String pwdStr = password.getText().toString();
 
 				//Connect the Server
-				String test = "From tidepool client!";
-				client.sendMsg(test);
+				
 				
 				UserDbSource userSource = new UserDbSource(LoginActivity.this);
 				User user = userSource.getUser(emailStr);

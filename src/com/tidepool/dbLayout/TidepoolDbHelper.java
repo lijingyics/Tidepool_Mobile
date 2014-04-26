@@ -33,7 +33,8 @@ public class TidepoolDbHelper extends SQLiteOpenHelper {
     		+ FeedEntry.COLUMN_BG + " INTEGER NOT NULL,"
     		+ FeedEntry.COLUMN_INSULIN + " INTEGER NOT NULL,"
             + FeedEntry.COLUMN_UID + " INTEGER,"
-    		+ " FOREIGN KEY (" + FeedEntry.COLUMN_UID 
+    		+ " UNIQUE(" + FeedEntry.COLUMN_TIME + "," + FeedEntry.COLUMN_UID + "),"
+            + " FOREIGN KEY (" + FeedEntry.COLUMN_UID 
     			+ ") REFERENCES " + FeedEntry.TABLE_USER 
     			+ "(" + FeedEntry._ID + ")" 
     			+ " ON DELETE CASCADE" + ")";
@@ -61,7 +62,7 @@ public class TidepoolDbHelper extends SQLiteOpenHelper {
     		+ FeedEntry._ID + " INTEGER PRIMARY KEY,"
     		+ FeedEntry.COLUMN_DID + " INTEGER,"
             + FeedEntry.COLUMN_MID + " INTEGER,"
-    		+ " UNIQUE(" + FeedEntry.COLUMN_DID + "," + FeedEntry.COLUMN_MID + ")"
+    		+ " UNIQUE(" + FeedEntry.COLUMN_DID + "," + FeedEntry.COLUMN_MID + "),"
     		+ " FOREIGN KEY (" + FeedEntry.COLUMN_DID 
 				+ ") REFERENCES " + FeedEntry.TABLE_DATA 
 				+ "(" + FeedEntry._ID + ")" 
@@ -77,7 +78,7 @@ public class TidepoolDbHelper extends SQLiteOpenHelper {
     		+ FeedEntry._ID + " INTEGER PRIMARY KEY,"
     		+ FeedEntry.COLUMN_DID + " INTEGER,"
             + FeedEntry.COLUMN_UID + " INTEGER,"
-            + " UNIQUE(" + FeedEntry.COLUMN_DID + "," + FeedEntry.COLUMN_UID + ")"
+            + " UNIQUE(" + FeedEntry.COLUMN_DID + "," + FeedEntry.COLUMN_UID + "),"
             + " FOREIGN KEY (" + FeedEntry.COLUMN_DID 
     			+ ") REFERENCES " + FeedEntry.TABLE_DATA 
     			+ "(" + FeedEntry._ID + ")" 
@@ -93,7 +94,7 @@ public class TidepoolDbHelper extends SQLiteOpenHelper {
     		+ FeedEntry._ID + " INTEGER PRIMARY KEY,"
     		+ FeedEntry.COLUMN_UID_1 + " INTEGER,"
             + FeedEntry.COLUMN_UID_2 + " INTEGER,"
-            + " UNIQUE(" + FeedEntry.COLUMN_UID_1 + "," + FeedEntry.COLUMN_UID_2 + ")" 
+            + " UNIQUE(" + FeedEntry.COLUMN_UID_1 + "," + FeedEntry.COLUMN_UID_2 + ")," 
             + " FOREIGN KEY (" + FeedEntry.COLUMN_UID_1 
     			+ ") REFERENCES " + FeedEntry.TABLE_USER 
     			+ "(" + FeedEntry._ID + ")" 
@@ -121,7 +122,7 @@ public class TidepoolDbHelper extends SQLiteOpenHelper {
     		+ FeedEntry.COLUMN_AID + " INTEGER,"
             + FeedEntry.COLUMN_UID + " INTEGER,"
             + FeedEntry.COLUMN_STATUS + " TEXT,"
-            + " UNIQUE(" + FeedEntry.COLUMN_AID + "," + FeedEntry.COLUMN_UID + ")"
+            + " UNIQUE(" + FeedEntry.COLUMN_AID + "," + FeedEntry.COLUMN_UID + "),"
             + " FOREIGN KEY (" + FeedEntry.COLUMN_AID 
     			+ ") REFERENCES " + FeedEntry.TABLE_ALERT 
     			+ "(" + FeedEntry._ID + ")" 
@@ -149,15 +150,15 @@ public class TidepoolDbHelper extends SQLiteOpenHelper {
     
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop Table
-    	db.execSQL("DROP TABLE IF EXISTS " + FeedEntry.TABLE_USER);
-        db.execSQL("DROP TABLE IF EXISTS " + FeedEntry.TABLE_DATA);
-        //db.execSQL("DROP TABLE IF EXISTS " + FeedEntry.TABLE_CHAT);
-        db.execSQL("DROP TABLE IF EXISTS " + FeedEntry.TABLE_MESSAGE);
-        db.execSQL("DROP TABLE IF EXISTS " + FeedEntry.TABLE_CHAT_MESSAGE);
+    	db.execSQL("DROP TABLE IF EXISTS " + FeedEntry.TABLE_CHAT_MESSAGE);
         db.execSQL("DROP TABLE IF EXISTS " + FeedEntry.TABLE_CHAT_USER);
         db.execSQL("DROP TABLE IF EXISTS " + FeedEntry.TABLE_FRIENDS);
-        db.execSQL("DROP TABLE IF EXISTS " + FeedEntry.TABLE_ALERT);
         db.execSQL("DROP TABLE IF EXISTS " + FeedEntry.TABLE_ALERT_USER);
+        
+    	db.execSQL("DROP TABLE IF EXISTS " + FeedEntry.TABLE_USER);
+        db.execSQL("DROP TABLE IF EXISTS " + FeedEntry.TABLE_DATA);
+        db.execSQL("DROP TABLE IF EXISTS " + FeedEntry.TABLE_MESSAGE);
+        db.execSQL("DROP TABLE IF EXISTS " + FeedEntry.TABLE_ALERT);
         
         onCreate(db);
     }
