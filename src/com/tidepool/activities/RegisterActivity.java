@@ -7,6 +7,7 @@ import java.util.Date;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import com.example.tidepool_mobile.R;
 import com.tidepool.dbLayout.UserDbSource;
 import com.tidepool.entities.User;
+import com.tidepool.remote.ClientNode;
 import com.tidepool.util.Constant;
 import com.tidepool.util.UserSession;
 
@@ -26,6 +28,7 @@ public class RegisterActivity extends Activity {
 	Button button;
 	TextView text;
 	User user;
+	ClientNode client = ClientNode.getInstance();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +105,17 @@ public class RegisterActivity extends Activity {
 				}
 				else {
 					// Check whether user already exists
-
+					client.register(user);
+					String feedback = client.getFeedback();
+					Log.d("Feedback", feedback);
+					if(!feedback.equals("success")) {
+						Toast toast = Toast.makeText(RegisterActivity.this,
+								"User already exists!", Toast.LENGTH_SHORT);
+						toast.setGravity(Gravity.CENTER, 0, 0);
+						toast.show();
+						return;
+					}
+					
 					// Insert user
 					UserDbSource userSource = new UserDbSource(RegisterActivity.this);
 					userSource.insertUser(user);

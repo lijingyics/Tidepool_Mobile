@@ -7,6 +7,11 @@ import java.io.OptionalDataException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+
+import com.tidepool.dbLayout.UserDbSource;
+import com.tidepool.entities.Data;
+import com.tidepool.entities.User;
 
 import android.util.Log;
 
@@ -19,9 +24,12 @@ public class ClientNode {
 	private static ClientThread client = null;
 	
 	private String status = null;
-	private String feedback = null;
+	private String feedback = "";
 	private String email;
 	private String pwd;
+	private User user = null;
+	private ArrayList<User> friends = new ArrayList<User>();
+	private ArrayList<Data> data = new ArrayList<Data>();
 	
 	private ClientNode() {
 		client = new ClientThread();
@@ -36,6 +44,7 @@ public class ClientNode {
 	}
 	
 	public void close() {
+		status = null;
 		client = null;
 		singleton = null;
 	}
@@ -45,15 +54,79 @@ public class ClientNode {
 	 * Need to pause for while waiting for update
 	 * @return the feedback from server
 	 */
-	public String getFeedback() { return feedback; }
+	public String getFeedback() { 
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return feedback; 
+	}
 	
+	/**
+	 * Get the user from server.
+	 * Need to pause for while waiting for update
+	 * @return this user
+	 */
+	public User getUser() {
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// while(!feedback.equals("success"));
+		return user; 
+	}
+	
+	/**
+	 * Used for signin
+	 * @param email
+	 * @param pwd
+	 */
 	public void signin(String email, String pwd) {
-		status = "signin";
+		feedback = "";
 		this.email = email;
 		this.pwd = pwd;
+		status = "signin";
 	}
 
+	/**
+	 * Used for register
+	 * @param user
+	 */
+	public void register(User user) {
+		feedback = "";
+		this.user = user;
+		status = "register";
+	}
+	
+	/**
+	 * Return all data relevant to the current user
+	 * @return data
+	 */
+	public ArrayList<Data> getData() {
+		Log.d("data", "1");
+		feedback = "";
+		Log.d("data", "2");
+		//status = "receiveData";
+		Log.d("data", "3");
+		//while(!feedback.equals("success"));
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Log.d("data", "4");
+		return data;
+	}
+	
 	private class ClientThread implements Runnable {
+		/**
+		 * Socket Thread
+		 */
 		private Socket socket;
 		private ObjectInputStream reader = null;
 	    private ObjectOutputStream writer = null;
@@ -86,15 +159,17 @@ public class ClientNode {
 				while (!Thread.currentThread().isInterrupted()) {
 					if(status!=null)
 						Log.d("From client", status);
+					else
+						continue;
 					if(status.equalsIgnoreCase("signout")) break;
 					
 					if(status.equalsIgnoreCase("signin")) signin();
 					if(status.equalsIgnoreCase("register")) register();
-					if(status.equalsIgnoreCase("sendData")) sendData();
-					if(status.equalsIgnoreCase("sendFriends")) sendFriends();
-					if(status.equalsIgnoreCase("chat")) sendMsgProcess();
+					if(status.equalsIgnoreCase("receiveData")) receiveData();
+					if(status.equalsIgnoreCase("receiveFriends")) receiveFriends();
+					/*if(status.equalsIgnoreCase("chat")) sendMsgProcess();
 					if(status.equalsIgnoreCase("addFriend")) addFriend();
-					if(status.equalsIgnoreCase("deleteFriend")) deleteFriend();
+					if(status.equalsIgnoreCase("deleteFriend")) deleteFriend();*/
 				}
 				
 				Log.d("Close communication", "signout");
@@ -109,36 +184,37 @@ public class ClientNode {
 		
 		public void signin() {
 			try {
+				status = null;
 				writer.writeObject("signin");
 				String tmp = (String) reader.readObject();
 				
 				// Respond to email
 				if(!tmp.equalsIgnoreCase("email")) {
 					writer.writeObject("should respond email");
-					status = null;
 					return;
 				}
 				writer.writeObject(email);
 				
 				// Respond to wrong email
 				tmp = (String) reader.readObject();
+				Log.d("From server", tmp);
 				if(tmp.equalsIgnoreCase("No such user!")) {
 					feedback = "No such user!";
-					status = null;
 					return;
 				}
 				
 				// Respond to pwd
 				writer.writeObject(pwd);
-				Object read = reader.readObject();
-				if(read instanceof String) {
+				Object obj = reader.readObject();
+				if(obj instanceof String) {
 					feedback = "Wrong Password!";
-					status = null;
 					return;
 				}
 				
 				// Get User
-				
+				//Log.d("From server", "obj class:" + obj.getClass());
+				user = (User) obj;
+				feedback = "success";
 				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -147,6 +223,66 @@ public class ClientNode {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
+		
+		public void register() {
+			try {
+				status = null;
+				writer.writeObject("register");
+				String tmp = (String) reader.readObject();
+				
+				// Respond to server
+				if(!tmp.equalsIgnoreCase("user")) {
+					writer.writeObject("should respond user");
+					return;
+				}
+				
+				// Send user to server
+				writer.writeObject(user);
+				
+				// Respond to duplicate user or error
+				tmp = (String) reader.readObject();
+				if(tmp.equalsIgnoreCase("Duplicate User")) {
+					feedback = "error";
+					return;
+				}
+				
+				// Create new User successfully
+				feedback = "success";
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		public void receiveData() {
+			try {
+				Log.d("data", "01");
+				status = null;
+				Log.d("data", "02");
+				writer.writeObject("sendData");
+				Log.d("data", "03");
+				data = (ArrayList<Data>) reader.readObject();
+				Log.d("data", "04");
+				
+				// Receive Data successfully
+				feedback = "success";
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		public void receiveFriends() {
+			
 		}
 		
 		public Object receiveMsg() {
