@@ -133,16 +133,19 @@ public class LoginActivity extends Activity {
 					userSource.getAllUser(); // For debug
 					
 					// Get the data of current user
-					/*DataDbSource dataSource = new DataDbSource(LoginActivity.this);
+					DataDbSource dataSource = new DataDbSource(LoginActivity.this);
 					Log.d("Data", "start");
 					ArrayList<Data> data = client.getData();
 					Log.d("Data", "finish get data");
+					
 					if(user.getRole().equals(Constant.PATIENT))
 						for(Data d: data) {
+							Log.d("Data", "" + d.getBg() + " " + d.getTime());
 							d.setUserId(user.getId());
 							dataSource.insertData(d);
 						}
-					*/
+					dataSource.getAllData();
+					
 					//Login
 					UserSession.addUser(LoginActivity.this, user);
 

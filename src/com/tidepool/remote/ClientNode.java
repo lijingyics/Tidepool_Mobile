@@ -18,7 +18,8 @@ import android.util.Log;
 
 public class ClientNode {
 	private static final int SERVERPORT = 5555;
-	private static final String SERVER_IP = "192.168.1.205";
+	//private static final String SERVER_IP = "192.168.1.205"; //Village Lake
+	private static final String SERVER_IP = "10.0.23.122"; //D19
 	
 	private static ClientNode singleton = null;
 	private static ClientThread client = null;
@@ -107,11 +108,9 @@ public class ClientNode {
 	 * @return data
 	 */
 	public ArrayList<Data> getData() {
-		Log.d("data", "1");
 		feedback = "";
-		Log.d("data", "2");
-		//status = "receiveData";
-		Log.d("data", "3");
+		status = "receiveData";
+		
 		//while(!feedback.equals("success"));
 		try {
 			Thread.sleep(1000);
@@ -119,7 +118,7 @@ public class ClientNode {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Log.d("data", "4");
+
 		return data;
 	}
 	
@@ -163,13 +162,13 @@ public class ClientNode {
 						continue;
 					if(status.equalsIgnoreCase("signout")) break;
 					
-					if(status.equalsIgnoreCase("signin")) signin();
-					if(status.equalsIgnoreCase("register")) register();
-					if(status.equalsIgnoreCase("receiveData")) receiveData();
-					if(status.equalsIgnoreCase("receiveFriends")) receiveFriends();
-					/*if(status.equalsIgnoreCase("chat")) sendMsgProcess();
-					if(status.equalsIgnoreCase("addFriend")) addFriend();
-					if(status.equalsIgnoreCase("deleteFriend")) deleteFriend();*/
+					if(status!=null && status.equalsIgnoreCase("signin")) signin();
+					if(status!=null && status.equalsIgnoreCase("register")) register();
+					if(status!=null && status.equalsIgnoreCase("receiveData")) receiveData();
+					if(status!=null && status.equalsIgnoreCase("receiveFriends")) receiveFriends();
+					/*if(status!=null && status.equalsIgnoreCase("chat")) sendMsgProcess();
+					if(status!=null && status.equalsIgnoreCase("addFriend")) addFriend();
+					if(status!=null && status.equalsIgnoreCase("deleteFriend")) deleteFriend();*/
 				}
 				
 				Log.d("Close communication", "signout");
@@ -212,7 +211,6 @@ public class ClientNode {
 				}
 				
 				// Get User
-				//Log.d("From server", "obj class:" + obj.getClass());
 				user = (User) obj;
 				feedback = "success";
 				
@@ -261,13 +259,10 @@ public class ClientNode {
 		
 		public void receiveData() {
 			try {
-				Log.d("data", "01");
 				status = null;
-				Log.d("data", "02");
 				writer.writeObject("sendData");
-				Log.d("data", "03");
+				
 				data = (ArrayList<Data>) reader.readObject();
-				Log.d("data", "04");
 				
 				// Receive Data successfully
 				feedback = "success";
