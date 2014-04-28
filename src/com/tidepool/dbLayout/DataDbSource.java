@@ -41,6 +41,7 @@ public class DataDbSource {
 		
 		// Create a new map of values, where column names are the keys
 		ContentValues values = new ContentValues();
+		values.put(FeedEntry._ID, data.getId());
 		values.put(FeedEntry.COLUMN_TIME, getDateTime(data.getTime()));
 		values.put(FeedEntry.COLUMN_BG, data.getBg());
 		values.put(FeedEntry.COLUMN_INSULIN, data.getInsulin());

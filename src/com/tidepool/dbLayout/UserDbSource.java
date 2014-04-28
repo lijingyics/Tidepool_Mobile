@@ -44,6 +44,7 @@ public class UserDbSource {
 		
 		// Create a new map of values, where column names are the keys
 		ContentValues values = new ContentValues();
+		values.put(FeedEntry._ID, user.getId());
 		values.put(FeedEntry.COLUMN_EMAIL, user.getEmail());
 		values.put(FeedEntry.COLUMN_USERNAME, user.getUsername());
 		values.put(FeedEntry.COLUMN_PASSWORD, user.getPassword());

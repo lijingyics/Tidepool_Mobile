@@ -122,6 +122,26 @@ public class ClientNode {
 		return data;
 	}
 	
+	/**
+	 * Return all friends relevant to the current user
+	 * @return
+	 */
+	public ArrayList<User> getFriends() {
+		feedback = "";
+		status = "receiveFriends";
+		
+		//while(!feedback.equals("success"));
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return friends;
+	}
+	
+	
 	private class ClientThread implements Runnable {
 		/**
 		 * Socket Thread
@@ -277,7 +297,22 @@ public class ClientNode {
 		}
 		
 		public void receiveFriends() {
-			
+			try {
+				status = null;
+				writer.writeObject("sendFriends");
+				
+				friends = (ArrayList<User>) reader.readObject();
+				
+				// Receive Data successfully
+				feedback = "success";
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		public Object receiveMsg() {

@@ -141,7 +141,6 @@ public class LoginActivity extends Activity {
 					if(user.getRole().equals(Constant.PATIENT))
 						for(Data d: data) {
 							Log.d("Data", "" + d.getBg() + " " + d.getTime());
-							d.setUserId(user.getId());
 							dataSource.insertData(d);
 						}
 					dataSource.getAllData();
