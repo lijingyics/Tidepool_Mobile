@@ -17,8 +17,8 @@ import android.util.Log;
 
 public class ClientNode {
 	private static final int SERVERPORT = 5555;
-	//private static final String SERVER_IP = "192.168.1.205"; //Village Lake
-	private static final String SERVER_IP = "10.0.23.122"; //D19
+	private static final String SERVER_IP = "192.168.1.205"; //Village Lake
+	//private static final String SERVER_IP = "10.0.23.122"; //D19
 	
 	private static ClientNode singleton = null;
 	private static ClientThread client = null;
@@ -103,6 +103,16 @@ public class ClientNode {
 	}
 	
 	/**
+	 * Used for update user
+	 * @param user
+	 */
+	public void updateUser(User user) {
+		feedback = "";
+		this.user = user;
+		status = "updateUser";
+	}
+	
+	/**
 	 * Return all data relevant to the current user
 	 * @return data
 	 */
@@ -173,6 +183,7 @@ public class ClientNode {
 					if(status!=null && status.equalsIgnoreCase("register")) register();
 					if(status!=null && status.equalsIgnoreCase("receiveData")) receiveData();
 					if(status!=null && status.equalsIgnoreCase("receiveFriends")) receiveFriends();
+					if(status!=null && status.equalsIgnoreCase("updateUser")) updateUser();
 					/*if(status!=null && status.equalsIgnoreCase("chat")) sendMsgProcess();
 					if(status!=null && status.equalsIgnoreCase("addFriend")) addFriend();
 					if(status!=null && status.equalsIgnoreCase("deleteFriend")) deleteFriend();*/
@@ -253,6 +264,41 @@ public class ClientNode {
 				}
 				
 				// Create new User successfully
+				user.setId(Integer.parseInt(tmp));
+				feedback = "success";
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		public void updateUser() {
+			try {
+				status = null;
+				writer.writeObject("updateUser");
+				String tmp = (String) reader.readObject();
+				
+				// Respond to server
+				if(!tmp.equalsIgnoreCase("update user")) {
+					writer.writeObject("should respond update user");
+					return;
+				}
+				
+				// Send user to server
+				writer.writeObject(user);
+				
+				// Respond to duplicate error and failure
+				int res = (int) reader.readObject();
+				if(res!=1) {
+					feedback = "error";
+					return;
+				}
+				
+				// Update the user successfully
 				feedback = "success";
 				
 			} catch (IOException e) {

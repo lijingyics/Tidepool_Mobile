@@ -39,6 +39,11 @@ public class RegisterActivity extends Activity {
 		addButtonListener();
 		addLinkListener();
 	}
+	
+	@Override
+	public void onDestroy() {
+		client.close();
+	}
 
 	public void addButtonListener() {
 		button = (Button) findViewById(R.id.signup);

@@ -45,6 +45,11 @@ public class LoginActivity extends Activity {
 		addButtonListener();
 		addLinkListener();
 	}
+	
+	@Override
+	public void onDestroy() {
+		client.close();
+	}
 
 	public void addButtonListener() {
 		button = (Button) findViewById(R.id.sign_in_button);
@@ -131,6 +136,18 @@ public class LoginActivity extends Activity {
 					
 					// Read from the sqlite to ensure the date format
 					user = userSource.getUser(user.getEmail());
+					
+					// Get the friends of current user
+					JoinTableDbSource joinSource = new JoinTableDbSource(LoginActivity.this);
+					Log.d("Friends", "start");
+					ArrayList<User> friends = client.getFriends();
+					Log.d("Friends", "finish get data");
+					
+					for(User u: friends) {
+						Log.d("Friends", "id " + u.getId() + " email" + u.getEmail() );
+						joinSource.insertFriends(user.getId(), u.getId());
+						userSource.insertUser(u);
+					}
 					userSource.getAllUser(); // For debug
 					
 					// Get the data of current user
@@ -142,17 +159,6 @@ public class LoginActivity extends Activity {
 						dataSource.insertData(d);
 					}
 					dataSource.getAllData(); // for debug
-					
-					// Get the relationship of current user
-					JoinTableDbSource joinSource = new JoinTableDbSource(LoginActivity.this);
-					Log.d("Friends", "start");
-					ArrayList<User> friends = client.getFriends();
-					Log.d("Friends", "finish get data");
-					
-					for(User u: friends) {
-						Log.d("Friends", "id " + u.getId() + " email" + u.getEmail() );
-						joinSource.insertFriends(user.getId(), u.getId());
-					}
 					
 					//Login
 					UserSession.addUser(LoginActivity.this, user);

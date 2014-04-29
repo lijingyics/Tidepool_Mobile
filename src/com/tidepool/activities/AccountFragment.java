@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.example.tidepool_mobile.R;
 import com.tidepool.dbLayout.UserDbSource;
 import com.tidepool.entities.User;
+import com.tidepool.remote.ClientNode;
 import com.tidepool.util.Constant;
 import com.tidepool.util.UserSession;
 
@@ -33,12 +34,16 @@ public class AccountFragment extends Fragment {
 	private EditText dateOfBirth;
 	private RadioGroup rgSex;
 	private RadioGroup rgRole;
+	private ClientNode client;
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
         Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.account_fragment, container, false);
+        
+        // Get server
+        client = ClientNode.getInstance();
         
         username = (EditText)v.findViewById(R.id.account_username);
 		password = (EditText)v.findViewById(R.id.account_password);
@@ -132,15 +137,20 @@ public class AccountFragment extends Fragment {
 					toast.show();
 				}
 				else { // Update user
-					UserDbSource userSource = new UserDbSource(arg0.getContext());
-					int result = userSource.updateUser(user);
-					if(result == -1) {
+					client.updateUser(user);
+					String feedback = client.getFeedback();
+					
+					if(!feedback.equals("success")) {
 						Toast toast = Toast.makeText(arg0.getContext(),
 								"Update failed", Toast.LENGTH_SHORT);
 						toast.setGravity(Gravity.CENTER, 0, 0);
 						toast.show();
 						return;
 					}
+					
+					// If success, update local database
+					UserDbSource userSource = new UserDbSource(arg0.getContext());
+					userSource.updateUser(user);
 					
 					// Update user object in session
 					UserSession.updateUser(arg0.getContext(), user);
