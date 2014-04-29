@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.tidepool_mobile.R;
 import com.tidepool.dbLayout.DataDbSource;
+import com.tidepool.dbLayout.JoinTableDbSource;
 import com.tidepool.dbLayout.UserDbSource;
 import com.tidepool.entities.Data;
 import com.tidepool.entities.User;
@@ -134,16 +135,24 @@ public class LoginActivity extends Activity {
 					
 					// Get the data of current user
 					DataDbSource dataSource = new DataDbSource(LoginActivity.this);
-					Log.d("Data", "start");
 					ArrayList<Data> data = client.getData();
-					Log.d("Data", "finish get data");
 					
-					if(user.getRole().equals(Constant.PATIENT))
-						for(Data d: data) {
-							Log.d("Data", "" + d.getBg() + " " + d.getTime());
-							dataSource.insertData(d);
-						}
-					dataSource.getAllData();
+					for(Data d: data) {
+						Log.d("Data", "" + d.getBg() + " " + d.getTime());
+						dataSource.insertData(d);
+					}
+					dataSource.getAllData(); // for debug
+					
+					// Get the relationship of current user
+					JoinTableDbSource joinSource = new JoinTableDbSource(LoginActivity.this);
+					Log.d("Friends", "start");
+					ArrayList<User> friends = client.getFriends();
+					Log.d("Friends", "finish get data");
+					
+					for(User u: friends) {
+						Log.d("Friends", "id " + u.getId() + " email" + u.getEmail() );
+						joinSource.insertFriends(user.getId(), u.getId());
+					}
 					
 					//Login
 					UserSession.addUser(LoginActivity.this, user);

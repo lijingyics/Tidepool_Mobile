@@ -9,7 +9,6 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
-import com.tidepool.dbLayout.UserDbSource;
 import com.tidepool.entities.Data;
 import com.tidepool.entities.User;
 
@@ -111,14 +110,8 @@ public class ClientNode {
 		feedback = "";
 		status = "receiveData";
 		
-		//while(!feedback.equals("success"));
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+		while(!feedback.equals("success"));
+		
 		return data;
 	}
 	
@@ -130,13 +123,7 @@ public class ClientNode {
 		feedback = "";
 		status = "receiveFriends";
 		
-		//while(!feedback.equals("success"));
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		while(!feedback.equals("success"));
 
 		return friends;
 	}
