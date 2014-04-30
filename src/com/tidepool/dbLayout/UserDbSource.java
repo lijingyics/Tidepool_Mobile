@@ -54,7 +54,7 @@ public class UserDbSource {
 		values.put(FeedEntry.COLUMN_ROLE, user.getRole());
 		  
 		// Insert the new row, returning the primary key value of the new row
-		return db.insertWithOnConflict(FeedEntry.TABLE_USER, null, values, SQLiteDatabase.CONFLICT_IGNORE);
+		return db.insertWithOnConflict(FeedEntry.TABLE_USER, null, values, SQLiteDatabase.CONFLICT_REPLACE);
 	}
 	
 	/**

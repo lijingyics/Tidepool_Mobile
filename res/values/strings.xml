@@ -64,5 +64,10 @@
 	<string name="date_picker_title">Choose a date</string>
 	<string name="time_picker_title">Choose a time</string>
 	
-
+	<!-- Profile -->
+	<string name="profile">Profile</string>
+	<string name="delete">Delete</string>
+	<string name="add">Add</string>
+	<string name="deny">Deny</string>
+	
 </resources>

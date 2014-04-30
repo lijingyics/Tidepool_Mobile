@@ -4,5 +4,149 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
+    <TextView
+	  android:layout_width="match_parent"
+	  android:layout_height="wrap_content"
+	  android:gravity="center"
+	  android:text="@string/profile" 
+	  android:textSize="30sp"
+	  android:layout_marginBottom="20dp" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+	    
+	    <TextView
+		  android:layout_width="wrap_content"
+		  android:layout_height="wrap_content"
+		  android:layout_marginLeft="16dp"
+		  android:layout_marginRight="16dp"
+		  android:text="@string/username" />
+	    
+	    <TextView android:id="@+id/friend_username"
+		  android:layout_width="match_parent"
+		  android:layout_height="wrap_content"
+		  android:layout_marginLeft="16dp"
+		  android:layout_marginRight="16dp" />
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+	    
+	    <TextView
+		  android:layout_width="wrap_content"
+		  android:layout_height="wrap_content"
+		  android:layout_marginLeft="16dp"
+		  android:layout_marginRight="16dp"
+		  android:text="@string/email" />
+	    
+	    <TextView android:id="@+id/friend_email"
+		  android:layout_width="match_parent"
+		  android:layout_height="wrap_content"
+		  android:layout_marginLeft="16dp"
+		  android:layout_marginRight="16dp" />
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+	    
+	    <TextView
+		  android:layout_width="wrap_content"
+		  android:layout_height="wrap_content"
+		  android:layout_marginLeft="16dp"
+		  android:layout_marginRight="16dp"
+		  android:text="@string/phonenum" />
+	    
+	    <TextView android:id="@+id/friend_phonenum"
+		  android:layout_width="match_parent"
+		  android:layout_height="wrap_content"
+		  android:layout_marginLeft="16dp"
+		  android:layout_marginRight="16dp" />
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+	    
+	    <TextView
+		  android:layout_width="wrap_content"
+		  android:layout_height="wrap_content"
+		  android:layout_marginLeft="16dp"
+		  android:layout_marginRight="16dp"
+		  android:text="Date of Birth" />
+	    
+	    <TextView android:id="@+id/friend_birth"
+		  android:layout_width="match_parent"
+		  android:layout_height="wrap_content"
+		  android:layout_marginLeft="16dp"
+		  android:layout_marginRight="16dp" />
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+	    
+	    <TextView
+		  android:layout_width="wrap_content"
+		  android:layout_height="wrap_content"
+		  android:layout_marginLeft="16dp"
+		  android:layout_marginRight="16dp"
+		  android:text="Gender" />
+	    
+	    <TextView android:id="@+id/friend_gender"
+		  android:layout_width="match_parent"
+		  android:layout_height="wrap_content"
+		  android:layout_marginLeft="16dp"
+		  android:layout_marginRight="16dp" />
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+	    
+	    <TextView
+		  android:layout_width="wrap_content"
+		  android:layout_height="wrap_content"
+		  android:layout_marginLeft="16dp"
+		  android:layout_marginRight="16dp"
+		  android:text="Role" />
+	    
+	    <TextView android:id="@+id/friend_role"
+		  android:layout_width="match_parent"
+		  android:layout_height="wrap_content"
+		  android:layout_marginLeft="16dp"
+		  android:layout_marginRight="16dp" />
+    </LinearLayout>
+    
+    <Button android:id="@+id/deleteFriend"
+	  android:layout_width="match_parent"
+	  android:layout_height="wrap_content"
+	  android:text="@string/delete" 
+	  android:layout_marginBottom="10dp" />
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+        <Button android:id="@+id/addFriend"
+		  android:layout_width="wrap_content"
+		  android:layout_height="wrap_content"
+		  android:text="@string/add" 
+		  android:layout_marginBottom="10dp" />
+	
+		<Button android:id="@+id/deny"
+		  android:layout_width="wrap_content"
+		  android:layout_height="wrap_content"
+		  android:text="@string/deny" 
+		  android:layout_marginBottom="10dp" />
+    </LinearLayout>
+    
 </LinearLayout>

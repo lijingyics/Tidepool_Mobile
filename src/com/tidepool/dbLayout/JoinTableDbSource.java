@@ -185,8 +185,17 @@ public class JoinTableDbSource {
 			user.setEmail(cursor.getString(1));
 			user.setUsername(cursor.getString(2));
 			user.setPhoneNo(cursor.getString(4));
-			user.setRole(cursor.getString(7));  
-
+			try {
+				Date date;
+				date = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).parse(cursor.getString(5));
+				user.setDateOfBirth(date);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			user.setGender(cursor.getString(6));
+			user.setRole(cursor.getString(7));
+			
 			//For debug
 			Log.d("Debug Friends: ", user.getId() + " " + user.getEmail() + " " + user.getRole());
 				
