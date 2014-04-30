@@ -45,6 +45,7 @@ public class ClientNode {
 	
 	public void close() {
 		status = null;
+		client.closeSession();
 		client = null;
 		singleton = null;
 	}
@@ -158,6 +159,7 @@ public class ClientNode {
 	    
 	    public void closeSession() {
 	    	try {
+	    		writer.writeObject("signout");
 	    		writer = null;
 	    		reader = null;
 	    		socket.close();
