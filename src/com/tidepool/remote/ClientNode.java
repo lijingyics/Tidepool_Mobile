@@ -17,8 +17,7 @@ import android.util.Log;
 
 public class ClientNode {
 	private static final int SERVERPORT = 5555;
-	//private static final String SERVER_IP = "192.168.1.205"; //Village Lake
-	private static final String SERVER_IP = "10.0.0.20"; //D19
+	private static final String SERVER_IP = "10.0.22.69"; 
 	
 	private static ClientNode singleton = null;
 	private static ClientThread client = null;
