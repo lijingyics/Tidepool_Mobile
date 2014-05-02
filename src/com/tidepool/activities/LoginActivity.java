@@ -1,8 +1,5 @@
 package com.tidepool.activities;
 
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -23,7 +20,6 @@ import com.tidepool.dbLayout.UserDbSource;
 import com.tidepool.entities.Data;
 import com.tidepool.entities.User;
 import com.tidepool.remote.ClientNode;
-import com.tidepool.util.Constant;
 import com.tidepool.util.UserSession;
 
 public class LoginActivity extends Activity {
@@ -56,54 +52,6 @@ public class LoginActivity extends Activity {
 
 		button.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View arg0) {
-				// insert dummy data into database
-				/*UserDbSource userSourceDummy = new UserDbSource(LoginActivity.this);
-				User userDummy = new User();
-				userDummy.setEmail("becky@gmail.com");
-				userDummy.setGender("female");
-				userDummy.setPassword("pwd");
-				userDummy.setPhoneNo("123");
-				userDummy.setRole("patient");
-				userDummy.setUsername("becky");
-				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-				String dateStr = "1992-01-01";
-				try {
-					userDummy.setDateOfBirth(formatter.parse(dateStr));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-				userSourceDummy.insertUser(userDummy);
-				userSourceDummy.getAllUser();
-
-				DataDbSource dataSource = new DataDbSource(LoginActivity.this);
-				Data data1 = new Data();
-				data1.setBg(10);
-				data1.setChatId(1);
-				data1.setInsulin(0);
-				SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-				String timeStr = "2014-02-02 12:00";
-				try {
-					data1.setTime(formatter2.parse(timeStr));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-				data1.setUserId(4);
-				
-				Data data2 = new Data();
-				data2.setBg(20);
-				data2.setChatId(2);
-				data2.setInsulin(0);
-				String timeStr2 = "2014-02-02 12:05";
-				try {
-					data2.setTime(formatter2.parse(timeStr2));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-				data2.setUserId(4);
-				
-				//dataSource.insertData(data1);
-				//dataSource.insertData(data2);
-				dataSource.getAllData();*/
 		
 				// Get all inputs from login form
 				EditText email = (EditText)findViewById(R.id.login_email);

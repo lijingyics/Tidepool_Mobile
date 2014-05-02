@@ -8,6 +8,8 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.tidepool.entities.User;
 
+
+
 public class UserSession {
 	private static final String PREF_NAME = "MyPref";
 	private static final String KEY = "user";

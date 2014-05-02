@@ -173,6 +173,15 @@
             android:layout_marginBottom="10dp"
             android:onClick="viewHistory"
             android:text="@string/change_time" />
+        
+        <Button
+            android:id="@+id/search_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:onClick="viewHistory"
+            android:text="@string/search_data" />
+        
     </LinearLayout>
 
     <Button

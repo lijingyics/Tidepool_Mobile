@@ -18,7 +18,7 @@ import android.util.Log;
 public class ClientNode {
 	private static final int SERVERPORT = 5555;
 	//private static final String SERVER_IP = "192.168.1.205"; //Village Lake
-	private static final String SERVER_IP = "10.0.23.122"; //D19
+	private static final String SERVER_IP = "10.0.0.20"; //D19
 	
 	private static ClientNode singleton = null;
 	private static ClientThread client = null;
@@ -294,7 +294,7 @@ public class ClientNode {
 				writer.writeObject(user);
 				
 				// Respond to duplicate error and failure
-				int res = (int) reader.readObject();
+				int res = (Integer) reader.readObject();
 				if(res!=1) {
 					feedback = "error";
 					return;

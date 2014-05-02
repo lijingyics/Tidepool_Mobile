@@ -19,7 +19,7 @@ import com.example.tidepool_mobile.R;
 
 
 public class DatePickerFragment extends DialogFragment {
-    public static final String EXTRA_DATE = "criminalintent.DATE";
+    public static final String EXTRA_DATE = "date";
 
     Date mDate;
 

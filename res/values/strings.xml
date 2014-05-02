@@ -59,6 +59,7 @@
 	<string name="title_time">Time</string>
 	<string name="change_date">Change date</string>
 	<string name="change_time">Change Time</string>
+	<string name="search_data">Search Data</string>
 	<string name="location">Current Location</string>
 	<string name="chatting">Start Chatting</string>
 	<string name="date_picker_title">Choose a date</string>

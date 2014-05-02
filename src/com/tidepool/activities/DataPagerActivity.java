@@ -1,17 +1,16 @@
 package com.tidepool.activities;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
-import android.widget.TextView;
 
 import com.example.tidepool_mobile.R;
 import com.tidepool.entities.Data;
@@ -51,6 +50,21 @@ public class DataPagerActivity extends FragmentActivity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
+	}
+	
+	public ViewPager getViewPager() {
+		if (mViewPager == null) {
+			mViewPager = new ViewPager(this);
+		}
+		return mViewPager;
+	}
+	
+	public int getDataIndex(Date date) {
+		for(int i = 0; i < datas.size(); i++) {
+			if(datas.get(i).getTime().equals(date))
+				return i;
+		}
+		return -1;
 	}
 
 
