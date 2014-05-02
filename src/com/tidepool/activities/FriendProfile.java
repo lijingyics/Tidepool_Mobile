@@ -52,6 +52,7 @@ public class FriendProfile extends FragmentActivity {
 		deleteButtonListener();
 		addButtonListener();
 		refuseButtonListener();
+		phoneCall();
 		
 	}
 	
@@ -163,11 +164,11 @@ public class FriendProfile extends FragmentActivity {
 	public void phoneCall() {
 		call.setOnClickListener(new View.OnClickListener() {
 		    public void onClick(View v) {
-		    	String number = phoneNo.getText().toString();
+		    	String number = phoneNo.getText().toString().trim();
 		    	
 		    	Intent callIntent = new Intent(Intent.ACTION_CALL);  
-		    	callIntent.setData(Uri.parse("tel:" + number));  
-		    	startActivity(callIntent); 
+		    	callIntent.setData(Uri.parse("tel:" + number));
+		    	startActivity(callIntent);
 		    }
 		});
 	}
