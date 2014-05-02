@@ -6,4 +6,6 @@ public class Constant {
 	public static final String PATIENT = "patient";
 	public static final String PARENT = "parent";
 
+	public static final String ADMIT = "admit";
+	public static final String REFUSE = "refuse";
 }

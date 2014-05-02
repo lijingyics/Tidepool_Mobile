@@ -33,6 +33,8 @@ public class LoginActivity extends Activity {
 
 		// Check whether user has already signed in
 		if(UserSession.isAdded(LoginActivity.this)) {
+			User user = UserSession.getUser(LoginActivity.this);
+			client.signin(user.getEmail(), user.getPassword());
 			Intent i = new Intent(LoginActivity.this, MainActivity.class);
 			startActivityForResult(i, 0);
 		}
@@ -52,7 +54,6 @@ public class LoginActivity extends Activity {
 
 		button.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View arg0) {
-		
 				// Get all inputs from login form
 				EditText email = (EditText)findViewById(R.id.login_email);
 				EditText password = (EditText)findViewById(R.id.login_password);
@@ -87,9 +88,7 @@ public class LoginActivity extends Activity {
 					
 					// Get the friends of current user
 					JoinTableDbSource joinSource = new JoinTableDbSource(LoginActivity.this);
-					Log.d("Friends", "start");
 					ArrayList<User> friends = client.getFriends();
-					Log.d("Friends", "finish get data");
 					
 					for(User u: friends) {
 						Log.d("Friends", "id " + u.getId() + " email" + u.getEmail() );
@@ -98,46 +97,12 @@ public class LoginActivity extends Activity {
 					}
 					userSource.getAllUser(); // For debug
 					
-					// Get the data of current user
-					DataDbSource dataSource = new DataDbSource(LoginActivity.this);
-					ArrayList<Data> data = client.getData();
-					
-					for(Data d: data) {
-						Log.d("Data", "" + d.getBg() + " " + d.getTime());
-						dataSource.insertData(d);
-					}
-					dataSource.getAllData(); // for debug
-					
 					//Login
 					UserSession.addUser(LoginActivity.this, user);
 
 					Intent i = new Intent(LoginActivity.this, MainActivity.class);
 					startActivityForResult(i, 0);
 				}
-				
-				/*UserDbSource userSource = new UserDbSource(LoginActivity.this);
-				User user = userSource.getUser(emailStr);
-				userSource.getAllUser();
-				if(user == null) {
-					Toast toast = Toast.makeText(LoginActivity.this,
-							"User does not exist", Toast.LENGTH_SHORT);
-					toast.setGravity(Gravity.CENTER, 0, 0);
-					toast.show();
-				}
-				else if(!user.getPassword().equals(pwdStr)) {
-					Toast toast = Toast.makeText(LoginActivity.this,
-							"Wrong password", Toast.LENGTH_SHORT);
-					toast.setGravity(Gravity.CENTER, 0, 0);
-					toast.show();
-				}
-				else {
-					// Remember user
-					Log.d("here", "" + user.getDateOfBirth() );
-					UserSession.addUser(LoginActivity.this, user);
-
-					Intent i = new Intent(LoginActivity.this, MainActivity.class);
-					startActivityForResult(i, 0);
-				}*/
 			}
 		});
 	}
