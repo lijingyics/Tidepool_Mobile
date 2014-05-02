@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 
 import com.example.tidepool_mobile.R;
 import com.tidepool.entities.User;
+import com.tidepool.remote.ClientNode;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -12,6 +13,8 @@ import android.widget.TextView;
 
 public class FriendProfile extends FragmentActivity {
 	private User friend = new User();
+	private ClientNode client = ClientNode.getInstance();
+	
 	private TextView username;
 	private TextView email;
 	private TextView phoneNo;

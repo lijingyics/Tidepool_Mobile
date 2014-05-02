@@ -139,9 +139,7 @@ public class LoginActivity extends Activity {
 					
 					// Get the friends of current user
 					JoinTableDbSource joinSource = new JoinTableDbSource(LoginActivity.this);
-					Log.d("Friends", "start");
 					ArrayList<User> friends = client.getFriends();
-					Log.d("Friends", "finish get data");
 					
 					for(User u: friends) {
 						Log.d("Friends", "id " + u.getId() + " email" + u.getEmail() );

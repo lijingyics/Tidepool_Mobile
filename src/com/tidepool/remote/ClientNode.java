@@ -3,7 +3,6 @@ package com.tidepool.remote;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OptionalDataException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -17,8 +16,8 @@ import android.util.Log;
 
 public class ClientNode {
 	private static final int SERVERPORT = 5555;
-	//private static final String SERVER_IP = "192.168.1.205"; //Village Lake
-	private static final String SERVER_IP = "10.0.23.122"; //D19
+	private static final String SERVER_IP = "192.168.1.205"; //Village Lake
+	//private static final String SERVER_IP = "10.0.23.122"; //D19
 	
 	private static ClientNode singleton = null;
 	private static ClientThread client = null;
@@ -27,7 +26,9 @@ public class ClientNode {
 	private String feedback = "";
 	private String email;
 	private String pwd;
+	private String theRespond;
 	private User user = null;
+	private long friend_id = -1;
 	private ArrayList<User> friends = new ArrayList<User>();
 	private ArrayList<Data> data = new ArrayList<Data>();
 	
@@ -47,6 +48,11 @@ public class ClientNode {
 		status = null;
 		client.closeSession();
 		client = null;
+		user = null;
+		friend_id = -1;
+		friends = null;
+		data = null;
+		feedback = "";
 		singleton = null;
 	}
 	
@@ -139,6 +145,103 @@ public class ClientNode {
 		return friends;
 	}
 	
+	/**
+	 * User send "add friend" request
+	 * @param email
+	 * @return whether success
+	 */
+	public String sendRequest(String email) {
+		feedback = "";
+		status = "sendRequest";
+		this.email = email;
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return feedback;
+	}
+	
+	/**
+	 * User get "add friend" request
+	 * @return senders
+	 */
+	public ArrayList<User> receiveRequest() {
+		feedback = "";
+		friends = new ArrayList<User>();
+		status = "receiveRequest";
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return friends;
+	}
+	
+	/**
+	 * The user respond to the "add friend" request
+	 * @param user
+	 * @param r - respond, should be "admit" or "refuse"
+	 * @return whether success
+	 */
+	public String sendRespond(long fId, String r) {
+		feedback = "";
+		friend_id = fId;
+		theRespond = r;
+		status = "sendRespond";
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return feedback;
+	}
+	
+	/**
+	 * The user get "add friend" respond
+	 * @return friend
+	 * return all column if "admit"
+	 * return only username if "refuse"
+	 */
+	public ArrayList<User> receiveRespond() {
+		feedback = "";
+		friends = new ArrayList<User>();
+		status = "receiveRespond";
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return friends;
+	}
+	
+	/**
+	 * Delete friend of the user
+	 * @param friend email
+	 * @return whether success
+	 */
+	public String deleteFriend(String email) {
+		feedback = "";
+		this.email = email;
+		status = "deleteFriend";
+		
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return feedback;
+	}
 	
 	private class ClientThread implements Runnable {
 		/**
@@ -185,10 +288,19 @@ public class ClientNode {
 					if(status!=null && status.equalsIgnoreCase("register")) register();
 					if(status!=null && status.equalsIgnoreCase("receiveData")) receiveData();
 					if(status!=null && status.equalsIgnoreCase("receiveFriends")) receiveFriends();
+					
+					// For account tab
 					if(status!=null && status.equalsIgnoreCase("updateUser")) updateUser();
-					/*if(status!=null && status.equalsIgnoreCase("chat")) sendMsgProcess();
-					if(status!=null && status.equalsIgnoreCase("addFriend")) addFriend();
-					if(status!=null && status.equalsIgnoreCase("deleteFriend")) deleteFriend();*/
+					
+					// For chat room
+					//if(status!=null && status.equalsIgnoreCase("chat")) sendMsgProcess();
+					
+					// For add contact
+					if(status!=null && status.equalsIgnoreCase("sendRequest")) sendRequest();
+					if(status!=null && status.equalsIgnoreCase("receiveRequest")) receiveRequest();
+					if(status!=null && status.equalsIgnoreCase("sendRespond")) sendRespond();
+					if(status!=null && status.equalsIgnoreCase("receiveRespond")) receiveRespond();
+					if(status!=null && status.equalsIgnoreCase("deleteFriend")) deleteFriend();
 				}
 				
 				Log.d("Close communication", "signout");
@@ -350,27 +462,142 @@ public class ClientNode {
 			}
 		}
 		
-		public Object receiveMsg() {
+		public void sendRequest() {
 			try {
-				return reader.readObject();
-			} catch (OptionalDataException e) {
+				status = null;
+				writer.writeObject("sendRequest");
+				String tmp = (String) reader.readObject();
+				
+				if(!tmp.equalsIgnoreCase("friend email")) {
+					writer.writeObject("should respond friend email");
+					return;
+				}
+				
+				// Send receiver email to server
+				writer.writeObject(email);
+				Object obj = reader.readObject();
+				if(obj instanceof String) {
+					feedback = "No such user!";
+					return;
+				}
+				
+				// Check whether send request successfully
+				int res = (Integer) obj;
+				if(res!=1) {
+					feedback = "error";
+					return;
+				}
+				
+				feedback = "success";
+				
+			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}
+		}
+		
+		public void receiveRequest() {
+			try {
+				status = null;
+				writer.writeObject("receiveRequest");
+				
+				friends = (ArrayList<User>) reader.readObject();
+
+				// Receive Data successfully
+				feedback = "success";
+				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			
-			return null;
 		}
 		
-		public void sendMsg(Object obj) {
+		public void sendRespond() {
 			try {
-				writer.writeObject(obj);
+				status = null;
+				writer.writeObject("sendRespond");
+				String tmp = (String) reader.readObject();
+				
+				if(!tmp.equalsIgnoreCase("sender id")) {
+					writer.writeObject("should respond sender id");
+					return;
+				}
+				
+				// Send sender id to server
+				writer.writeObject(friend_id);
+				tmp = (String) reader.readObject();
+				
+				if(!tmp.equalsIgnoreCase("respond")) {
+					writer.writeObject("should respond respond");
+					return;
+				}
+				
+				// Get result
+				writer.writeObject(theRespond);
+				int res = (Integer) reader.readObject();
+				if(res!=1) {
+					feedback = "error";
+					return;
+				}
+				
+				feedback = "success";
+				Log.d("receiveRespond", "success");
+				
 			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		public void receiveRespond() {
+			try {
+				status = null;
+				writer.writeObject("receiveRespond");
+				
+				friends = (ArrayList<User>) reader.readObject();
+				
+				// Receive Data successfully
+				feedback = "success";
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		public void deleteFriend() {
+			try {
+				status = null;
+				writer.writeObject("deleteFriend");
+				String tmp = (String) reader.readObject();
+				
+				if(!tmp.equalsIgnoreCase("friend email")) {
+					writer.writeObject("should respond friend email");
+					tmp = (String) reader.readObject();
+					return;
+				}
+				writer.writeObject(email);
+				
+				// Get respond
+				tmp = (String) reader.readObject();
+				feedback = "success";
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
