@@ -66,7 +66,8 @@
 		  android:layout_width="match_parent"
 		  android:layout_height="wrap_content"
 		  android:layout_marginLeft="16dp"
-		  android:layout_marginRight="16dp" />
+		  android:layout_marginRight="16dp"
+		  android:linksClickable="true" />
     </LinearLayout>
     
     <LinearLayout
@@ -132,6 +133,11 @@
 	  android:text="@string/delete" 
 	  android:layout_marginBottom="10dp" />
     
+    <Button android:id="@+id/callFriend"
+	  android:layout_width="match_parent"
+	  android:layout_height="wrap_content"
+	  android:text="@string/call" />
+    
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -142,11 +148,13 @@
 		  android:text="@string/add" 
 		  android:layout_marginBottom="10dp" />
 	
-		<Button android:id="@+id/deny"
+		<Button android:id="@+id/refuseFriend"
 		  android:layout_width="wrap_content"
 		  android:layout_height="wrap_content"
 		  android:text="@string/deny" 
 		  android:layout_marginBottom="10dp" />
     </LinearLayout>
+    
+    
     
 </LinearLayout>

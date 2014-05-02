@@ -416,7 +416,7 @@ public class JoinTableDbSource {
 	 * Deleting single relation in friends table
 	 * @param id
 	 */
-	public void deleteFriends(int id) {
+	public void deleteFriends(long id) {
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
 		
 		  db.delete(FeedEntry.TABLE_FRIENDS, FeedEntry._ID + " = ?",

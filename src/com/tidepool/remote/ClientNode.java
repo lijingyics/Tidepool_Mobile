@@ -16,8 +16,9 @@ import android.util.Log;
 
 public class ClientNode {
 	private static final int SERVERPORT = 5555;
-	private static final String SERVER_IP = "192.168.1.205"; //Village Lake
-	//private static final String SERVER_IP = "10.0.23.122"; //D19
+	//private static final String SERVER_IP = "192.168.1.205"; //Village Lake
+	private static final String SERVER_IP = "10.0.23.122"; //D19
+	//private static final String SERVER_IP = "10.0.21.12"; //D19, 1000 Wing
 	
 	private static ClientNode singleton = null;
 	private static ClientThread client = null;
@@ -120,14 +121,22 @@ public class ClientNode {
 	}
 	
 	/**
-	 * Return all data relevant to the current user
-	 * @return data
+	 * Return the data of the user
+	 * @param user_id
+	 * @return user data
 	 */
-	public ArrayList<Data> getData() {
+	public ArrayList<Data> getData(long id) {
 		feedback = "";
 		status = "receiveData";
+		friend_id = id;
 		
-		while(!feedback.equals("success"));
+		//while(!feedback.equals("success"));
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		return data;
 	}
@@ -140,8 +149,14 @@ public class ClientNode {
 		feedback = "";
 		status = "receiveFriends";
 		
-		while(!feedback.equals("success"));
-
+		//while(!feedback.equals("success"));
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		return friends;
 	}
 	
@@ -155,7 +170,7 @@ public class ClientNode {
 		status = "sendRequest";
 		this.email = email;
 		try {
-			Thread.sleep(500);
+			Thread.sleep(700);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -214,7 +229,7 @@ public class ClientNode {
 		friends = new ArrayList<User>();
 		status = "receiveRespond";
 		try {
-			Thread.sleep(500);
+			Thread.sleep(700);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -428,7 +443,9 @@ public class ClientNode {
 			try {
 				status = null;
 				writer.writeObject("sendData");
+				String tmp = (String) reader.readObject();
 				
+				writer.writeObject(friend_id);
 				data = (ArrayList<Data>) reader.readObject();
 				
 				// Receive Data successfully
@@ -547,7 +564,6 @@ public class ClientNode {
 				}
 				
 				feedback = "success";
-				Log.d("receiveRespond", "success");
 				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

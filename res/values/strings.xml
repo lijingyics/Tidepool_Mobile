@@ -68,6 +68,7 @@
 	<string name="profile">Profile</string>
 	<string name="delete">Delete</string>
 	<string name="add">Add</string>
-	<string name="deny">Deny</string>
+	<string name="deny">Refuse</string>
+	<string name ="call">Call</string>
 	
 </resources>
