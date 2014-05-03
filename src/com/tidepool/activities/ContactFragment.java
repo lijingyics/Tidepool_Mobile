@@ -3,19 +3,15 @@ package com.tidepool.activities;
 import java.util.ArrayList;
 
 import com.example.tidepool_mobile.R;
-import com.tidepool.dbLayout.DataDbSource;
 import com.tidepool.dbLayout.JoinTableDbSource;
 import com.tidepool.dbLayout.UserDbSource;
-import com.tidepool.entities.Data;
 import com.tidepool.entities.User;
 import com.tidepool.remote.ClientNode;
-import com.tidepool.util.Constant;
 import com.tidepool.util.UserSession;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;

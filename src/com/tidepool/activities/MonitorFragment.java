@@ -2,7 +2,7 @@ package com.tidepool.activities;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -14,7 +14,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.tidepool_mobile.R;
 import com.tidepool.entities.Data;
 import com.tidepool.entities.User;
@@ -24,6 +23,7 @@ import com.tidepool.util.UserSession;
 
 
 public class MonitorFragment extends ListFragment {
+	@SuppressLint("SimpleDateFormat")
 	private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 	ClientNode client = ClientNode.getInstance();
 	UserAdapter adapter;

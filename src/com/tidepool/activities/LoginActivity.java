@@ -1,29 +1,24 @@
 package com.tidepool.activities;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.tidepool_mobile.R;
-import com.tidepool.dbLayout.TidepoolDbHelper;
 import com.tidepool.entities.User;
 import com.tidepool.remote.ClientNode;
 import com.tidepool.util.LocationHelper;
 import com.tidepool.util.UserSession;
 
 public class LoginActivity extends Activity {
+	@SuppressLint("SimpleDateFormat")
 	private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 	Button button;
 	TextView text;
