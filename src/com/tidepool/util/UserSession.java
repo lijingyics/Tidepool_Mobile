@@ -6,6 +6,7 @@ import android.content.SharedPreferences.Editor;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.tidepool.entities.User;
 
 
@@ -17,7 +18,8 @@ public class UserSession {
 	public static void addUser(Context context, User user) {
 		SharedPreferences pref = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
 		Editor editor = pref.edit();
-		Gson gson = new Gson();
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		//Gson gson = new Gson();
 		String userJson = gson.toJson(user);
 		editor.putString(KEY, userJson);
 		editor.commit();
@@ -42,7 +44,8 @@ public class UserSession {
 			Log.d("DEBUG", "user is null");
 			return null;
 		}
-		Gson gson = new Gson();
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		//Gson gson = new Gson();
 		User user = gson.fromJson(userJson, User.class);
 		return user;
 	}
@@ -51,7 +54,8 @@ public class UserSession {
 		SharedPreferences pref = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
 		Editor editor = pref.edit();
 		editor.remove(KEY);
-		Gson gson = new Gson();
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		//Gson gson = new Gson();
 		String userJson = gson.toJson(user);
 		editor.putString(KEY, userJson);
 		editor.commit();

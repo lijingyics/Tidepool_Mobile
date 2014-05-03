@@ -1,5 +1,7 @@
 package com.tidepool.activities;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -16,6 +18,7 @@ import com.example.tidepool_mobile.R;
 import com.tidepool.entities.Data;
 
 public class DataPagerActivity extends FragmentActivity {
+	private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 	private ViewPager mViewPager;
 	private ArrayList<Data> datas;
 
@@ -60,7 +63,13 @@ public class DataPagerActivity extends FragmentActivity {
 	
 	public int getDataIndex(Date date) {
 		for(int i = 0; i < datas.size(); i++) {
-			if(datas.get(i).getTime().equals(date))
+			Date time = datas.get(i).getTime();
+			try {
+				time = formatter.parse(formatter.format(time));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			if(time.equals(date))
 				return i;
 		}
 		return -1;
