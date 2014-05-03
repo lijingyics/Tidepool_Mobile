@@ -437,6 +437,7 @@ public class ClientNode {
 			try {
 				status = null;
 				writer.writeObject("sendData");
+				String tmp = (String) reader.readObject();
 				
 				writer.writeObject(friend_id);
 				data = (ArrayList<Data>) reader.readObject();
