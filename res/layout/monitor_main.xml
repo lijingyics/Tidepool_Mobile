@@ -192,12 +192,12 @@
         android:onClick="getLocation"
         android:text="@string/location" />
 
-    <Button
+    <!-- <Button
         android:id="@+id/chatting"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:gravity="center"
-        android:text="@string/chatting" />
+        android:text="@string/chatting" /> -->
 
 </LinearLayout>

@@ -1,9 +1,7 @@
 package com.tidepool.dbLayout;
 
 import com.tidepool.dbLayout.DatabaseContract.FeedEntry;
-import com.tidepool.entities.Alert;
 import com.tidepool.entities.Message;
-import com.tidepool.entities.User;
 
 import android.content.ContentValues;
 import android.content.Context;

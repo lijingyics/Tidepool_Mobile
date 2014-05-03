@@ -1,24 +1,29 @@
 package com.tidepool.activities;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Menu;
 
 import com.example.tidepool_mobile.R;
 import com.tidepool.entities.Data;
 
+@SuppressLint("SimpleDateFormat")
 public class DataPagerActivity extends FragmentActivity {
+	private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 	private ViewPager mViewPager;
 	private ArrayList<Data> datas;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -60,7 +65,13 @@ public class DataPagerActivity extends FragmentActivity {
 	
 	public int getDataIndex(Date date) {
 		for(int i = 0; i < datas.size(); i++) {
-			if(datas.get(i).getTime().equals(date))
+			Date time = datas.get(i).getTime();
+			try {
+				time = formatter.parse(formatter.format(time));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			if(time.equals(date))
 				return i;
 		}
 		return -1;

@@ -22,8 +22,8 @@ public class MainActivity extends FragmentActivity {
 
 		mTabHost.addTab(mTabHost.newTabSpec("tab1").setIndicator(getString(R.string.tab1)),
 				MonitorFragment.class, null);
-		mTabHost.addTab(mTabHost.newTabSpec("tab2").setIndicator(getString(R.string.tab2)),
-				ChatFragment.class, null);
+//		mTabHost.addTab(mTabHost.newTabSpec("tab2").setIndicator(getString(R.string.tab2)),
+//				ChatFragment.class, null);
 		mTabHost.addTab(mTabHost.newTabSpec("tab3").setIndicator(getString(R.string.tab3)),
 				ContactFragment.class, null);
 		mTabHost.addTab(mTabHost.newTabSpec("tab4").setIndicator(getString(R.string.tab4)),

@@ -66,7 +66,6 @@ public class ClientNode {
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return feedback; 
@@ -81,10 +80,8 @@ public class ClientNode {
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		// while(!feedback.equals("success"));
 		return user; 
 	}
 	
@@ -140,11 +137,9 @@ public class ClientNode {
 		status = "receiveData";
 		friend_id = id;
 		
-		//while(!feedback.equals("success"));
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -159,11 +154,9 @@ public class ClientNode {
 		feedback = "";
 		status = "receiveFriends";
 		
-		//while(!feedback.equals("success"));
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -182,7 +175,6 @@ public class ClientNode {
 		try {
 			Thread.sleep(700);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -200,7 +192,6 @@ public class ClientNode {
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -221,7 +212,6 @@ public class ClientNode {
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -241,7 +231,6 @@ public class ClientNode {
 		try {
 			Thread.sleep(700);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -261,7 +250,6 @@ public class ClientNode {
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -373,10 +361,8 @@ public class ClientNode {
 				feedback = "success";
 				
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -408,10 +394,8 @@ public class ClientNode {
 				feedback = "success";
 				
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -442,19 +426,17 @@ public class ClientNode {
 				feedback = "success";
 				
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		
+		@SuppressWarnings("unchecked")
 		public void receiveData() {
 			try {
 				status = null;
 				writer.writeObject("sendData");
-				String tmp = (String) reader.readObject();
 				
 				writer.writeObject(friend_id);
 				data = (ArrayList<Data>) reader.readObject();
@@ -463,10 +445,8 @@ public class ClientNode {
 				feedback = "success";
 				
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -503,6 +483,7 @@ public class ClientNode {
 			}
 		}
 		
+		@SuppressWarnings("unchecked")
 		public void receiveFriends() {
 			try {
 				status = null;
@@ -514,10 +495,8 @@ public class ClientNode {
 				feedback = "success";
 				
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -551,14 +530,13 @@ public class ClientNode {
 				feedback = "success";
 				
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		
+		@SuppressWarnings("unchecked")
 		public void receiveRequest() {
 			try {
 				status = null;
@@ -570,10 +548,8 @@ public class ClientNode {
 				feedback = "success";
 				
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -609,14 +585,13 @@ public class ClientNode {
 				feedback = "success";
 				
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		
+		@SuppressWarnings("unchecked")
 		public void receiveRespond() {
 			try {
 				status = null;
@@ -628,10 +603,8 @@ public class ClientNode {
 				feedback = "success";
 				
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -654,10 +627,8 @@ public class ClientNode {
 				feedback = "success";
 				
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

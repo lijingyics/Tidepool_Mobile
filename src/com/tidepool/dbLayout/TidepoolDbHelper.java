@@ -5,7 +5,6 @@ import com.tidepool.dbLayout.DatabaseContract.FeedEntry;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 public class TidepoolDbHelper extends SQLiteOpenHelper {
     // If you change the database schema, you must increment the database version.
