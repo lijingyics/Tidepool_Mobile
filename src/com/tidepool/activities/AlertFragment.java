@@ -64,7 +64,7 @@ public class AlertFragment extends ListFragment {
 					history.add(new Alert(d, alerts[0]));
 				
 					// send SMS
-					sms = "DANGER!" + me.getUsername() + "'s BG is " + d.getBg() + " now!";
+					sms = "DANGER! " + me.getUsername() + "'s BG is " + d.getBg() + " now!";
 					for(String p: parentPhone)
 						sendSmsByManager(p, sms);
 				}
@@ -79,7 +79,7 @@ public class AlertFragment extends ListFragment {
 					history.add(new Alert(d, alerts[3]));
 					
 					// send SMS
-					sms = "DANGER!" + me.getUsername() + "'s BG is " + d.getBg() + " now!";
+					sms = "DANGER! " + me.getUsername() + "'s BG is " + d.getBg() + " now!";
 					for(String p: parentPhone)
 						sendSmsByManager(p, sms);
 				}
