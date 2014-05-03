@@ -26,7 +26,9 @@ public class UserDbSource {
 		  FeedEntry.COLUMN_PHONE,
 		  FeedEntry.COLUMN_BIRTH,
 		  FeedEntry.COLUMN_GENDER,
-		  FeedEntry.COLUMN_ROLE };
+		  FeedEntry.COLUMN_ROLE, 
+		  FeedEntry.COLUMN_LAT,
+		  FeedEntry.COLUMN_LNG };
 	
 	public UserDbSource(Context context) {
 		dbHelper = new TidepoolDbHelper(context);
@@ -52,6 +54,8 @@ public class UserDbSource {
 		values.put(FeedEntry.COLUMN_BIRTH, getDate(user.getDateOfBirth()));
 		values.put(FeedEntry.COLUMN_GENDER, user.getGender());
 		values.put(FeedEntry.COLUMN_ROLE, user.getRole());
+		values.put(FeedEntry.COLUMN_LAT, user.getLocation_lat());
+		values.put(FeedEntry.COLUMN_LNG, user.getLocation_lng());
 		  
 		// Insert the new row, returning the primary key value of the new row
 		return db.insertWithOnConflict(FeedEntry.TABLE_USER, null, values, SQLiteDatabase.CONFLICT_REPLACE);
@@ -77,12 +81,13 @@ public class UserDbSource {
 		user.setUsername(cursor.getString(2));
 		user.setPassword(cursor.getString(3));
 		user.setPhoneNo(cursor.getString(4));
+		user.setLocation_lat(cursor.getDouble(5));
+		user.setLocation_lng(cursor.getDouble(6));
 		try {
 			Date date;
 			date = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).parse(cursor.getString(5));
 			user.setDateOfBirth(date);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	  
 		user.setGender(cursor.getString(6));
@@ -113,13 +118,14 @@ public class UserDbSource {
 				user.setEmail(cursor.getString(1));
 				user.setUsername(cursor.getString(2));
 				user.setPassword(cursor.getString(3));
-				user.setRole(cursor.getString(7));  
+				user.setRole(cursor.getString(4));  
+				user.setLocation_lat(cursor.getDouble(5));
+				user.setLocation_lng(cursor.getDouble(6));
 				try {
 					Date date;
 					date = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).parse(cursor.getString(5));
 					user.setDateOfBirth(date);
 				} catch (ParseException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
@@ -153,6 +159,8 @@ public class UserDbSource {
 		values.put(FeedEntry.COLUMN_BIRTH, getDate(user.getDateOfBirth()));
 		values.put(FeedEntry.COLUMN_GENDER, user.getGender());
 		values.put(FeedEntry.COLUMN_ROLE, user.getRole());
+		values.put(FeedEntry.COLUMN_LAT, user.getLocation_lat());
+		values.put(FeedEntry.COLUMN_LNG, user.getLocation_lng());
 		
 		// updating row
 		return db.update(FeedEntry.TABLE_USER, values, FeedEntry._ID + " = ?",

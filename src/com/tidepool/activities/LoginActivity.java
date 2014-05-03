@@ -1,9 +1,12 @@
 package com.tidepool.activities;
 
-import java.util.ArrayList;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -14,15 +17,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tidepool_mobile.R;
-import com.tidepool.dbLayout.DataDbSource;
-import com.tidepool.dbLayout.JoinTableDbSource;
-import com.tidepool.dbLayout.UserDbSource;
-import com.tidepool.entities.Data;
+import com.tidepool.dbLayout.TidepoolDbHelper;
 import com.tidepool.entities.User;
 import com.tidepool.remote.ClientNode;
+import com.tidepool.util.LocationHelper;
 import com.tidepool.util.UserSession;
 
 public class LoginActivity extends Activity {
+	private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 	Button button;
 	TextView text;
 	ClientNode client = ClientNode.getInstance();
@@ -31,6 +33,9 @@ public class LoginActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		TidepoolDbHelper dbhelper = new TidepoolDbHelper(LoginActivity.this);
+		SQLiteDatabase db = dbhelper.getWritableDatabase();
+		dbhelper.onUpgrade(db, 1, 2);
 		// Check whether user has already signed in
 		if(UserSession.isAdded(LoginActivity.this)) {
 			User user = UserSession.getUser(LoginActivity.this);
@@ -43,7 +48,7 @@ public class LoginActivity extends Activity {
 		addButtonListener();
 		addLinkListener();
 	}
-	
+
 	@Override
 	public void onDestroy() {
 		client.close();
@@ -64,8 +69,8 @@ public class LoginActivity extends Activity {
 				//Connect the Server
 				client.signin(emailStr, pwdStr);
 				String fromServer = client.getFeedback();
-				
-				UserDbSource userSource = new UserDbSource(LoginActivity.this);
+
+				//UserDbSource userSource = new UserDbSource(LoginActivity.this);
 				if(fromServer.equalsIgnoreCase("No such user!")) {
 					Toast toast = Toast.makeText(LoginActivity.this,
 							"User does not exist", Toast.LENGTH_SHORT);
@@ -79,31 +84,34 @@ public class LoginActivity extends Activity {
 					toast.show();
 				}
 				else {
-					// Save the user to database
 					User user = client.getUser();
-					userSource.insertUser(user);
-					
-					// Read from the sqlite to ensure the date format
-					user = userSource.getUser(user.getEmail());
-					
-					// Get the friends of current user
-					JoinTableDbSource joinSource = new JoinTableDbSource(LoginActivity.this);
-					ArrayList<User> friends = client.getFriends();
-					
-					for(User u: friends) {
-						Log.d("Friends", "id " + u.getId() + " email" + u.getEmail() );
-						joinSource.insertFriends(user.getId(), u.getId());
-						userSource.insertUser(u);
-					}
-					userSource.getAllUser(); // For debug
-					
-					//Login
-					UserSession.addUser(LoginActivity.this, user);
+					Log.d("DEBUG", user.getUsername());
+					// get current location
+					LocationHelper locationHelper = new LocationHelper(LoginActivity.this);
+					double lat = locationHelper.getLat();
+					double lng = locationHelper.getLng();
 
+					// update user
+					user.setLocation_lat(lat);
+					user.setLocation_lng(lng);
+
+					client.updateUser(user);
+
+					Date birth = user.getDateOfBirth();
+					Date parsedBirth = null;
+					try {
+						parsedBirth = formatter.parse(formatter.format(birth));
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+					user.setDateOfBirth(parsedBirth);
+
+					UserSession.addUser(LoginActivity.this, user);
 					Intent i = new Intent(LoginActivity.this, MainActivity.class);
 					startActivityForResult(i, 0);
 				}
 			}
+
 		});
 	}
 

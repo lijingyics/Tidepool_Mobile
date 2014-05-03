@@ -29,7 +29,6 @@ public class DataPagerActivity extends FragmentActivity {
 
 		Bundle bundle = getIntent().getExtras();
 		datas = (ArrayList<Data>)bundle.getSerializable("datas");
-		Log.d("DEBUG", String.valueOf(datas.size()));
 
 		FragmentManager fm = getSupportFragmentManager();
 		mViewPager.setAdapter(new FragmentStatePagerAdapter(fm) {

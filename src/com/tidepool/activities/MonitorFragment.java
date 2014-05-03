@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -12,42 +13,48 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.tidepool_mobile.R;
-import com.tidepool.dbLayout.DataDbSource;
 import com.tidepool.entities.Data;
 import com.tidepool.entities.User;
+import com.tidepool.remote.ClientNode;
 import com.tidepool.util.Constant;
 import com.tidepool.util.UserSession;
 
 
 public class MonitorFragment extends ListFragment {
+	ClientNode client = ClientNode.getInstance();
+	UserAdapter adapter;
 	private ArrayList<User> users;
+	private User user;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		
-		User user = UserSession.getUser(this.getActivity());
+		user = UserSession.getUser(this.getActivity());
+		Log.d("DEBUG", user.getRole());
 		String role = user.getRole();
 		users = new ArrayList<User>();
 		if(role.equals(Constant.PATIENT)) {
 			users.add(user);
 		}
 		else if(role.equals(Constant.PARENT)) {
-			// get all children of this parent
-			
-			
-
+			ArrayList<User> friends = client.getFriends();
+			for(User u : friends) {
+				if(u.getRole().equals(Constant.PATIENT)) {
+					users.add(u);
+				}
+			}
 		}
-		UserAdapter adapter = new UserAdapter(users);
+		adapter = new UserAdapter(users);
 		setListAdapter(adapter);
 	}
 
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		User user = ((UserAdapter)getListAdapter()).getItem(position);
 		Intent i = new Intent(getActivity(), DataPagerActivity.class);
-
-		DataDbSource dataSource = new DataDbSource(getActivity());
-		ArrayList<Data> datas = dataSource.getDataByUser(user.getId());
+		
+		ArrayList<Data> datas = client.getData(user.getId());
+		
 		if(datas.size() > 0) {
 			i.putExtra("datas", datas);
 			i.putExtra("username", user.getUsername());
@@ -84,5 +91,24 @@ public class MonitorFragment extends ListFragment {
 		}
 	}
 
-
+	@Override
+	public void onResume() {
+		String role = user.getRole();
+		users.clear();
+		if(role.equals(Constant.PATIENT)) {
+			User newUser = client.getUser(user.getId());	
+			users.add(newUser);
+			//UserSession.updateUser(getActivity(), newUser);
+		}
+		else {
+			ArrayList<User> friends = client.getFriends();
+			for(User u : friends) {
+				if(u.getRole().equals(Constant.PATIENT)) {
+					users.add(u);
+				}
+			}
+		}
+		adapter.notifyDataSetChanged();
+		super.onResume();
+	}
 }

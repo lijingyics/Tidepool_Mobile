@@ -16,9 +16,7 @@ import android.util.Log;
 
 public class ClientNode {
 	private static final int SERVERPORT = 5555;
-	//private static final String SERVER_IP = "192.168.1.205"; //Village Lake
-	private static final String SERVER_IP = "10.0.23.122"; //D19
-	//private static final String SERVER_IP = "10.0.21.12"; //D19, 1000 Wing
+	private static final String SERVER_IP = "10.0.22.69"; 
 	
 	private static ClientNode singleton = null;
 	private static ClientThread client = null;
@@ -27,6 +25,7 @@ public class ClientNode {
 	private String feedback = "";
 	private String email;
 	private String pwd;
+	private long uid;
 	private String theRespond;
 	private User user = null;
 	private long friend_id = -1;
@@ -86,6 +85,16 @@ public class ClientNode {
 		}
 		// while(!feedback.equals("success"));
 		return user; 
+	}
+	
+	public User getUser(long uid) {
+		feedback = "";
+		this.uid = uid;
+		status = "receiveUser";
+		
+		while(!feedback.equals("success"));
+		
+		return user;
 	}
 	
 	/**
@@ -302,6 +311,7 @@ public class ClientNode {
 					if(status!=null && status.equalsIgnoreCase("signin")) signin();
 					if(status!=null && status.equalsIgnoreCase("register")) register();
 					if(status!=null && status.equalsIgnoreCase("receiveData")) receiveData();
+					if(status!=null && status.equalsIgnoreCase("receiveUser")) receiveUser();
 					if(status!=null && status.equalsIgnoreCase("receiveFriends")) receiveFriends();
 					
 					// For account tab
@@ -456,6 +466,38 @@ public class ClientNode {
 				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		public void receiveUser() {
+			try {
+				status = null;
+				writer.writeObject("sendUser");
+				String tmp = (String) reader.readObject();
+				
+				// Respond to server
+				if(!tmp.equalsIgnoreCase("get uid")) {
+					writer.writeObject("should respond get uid");
+					return;
+				}
+				
+				// Send user to server
+				writer.writeObject(uid);
+				
+				// Respond to duplicate error and failure
+				user = (User) reader.readObject();
+				if(user == null) {
+					feedback = "error";
+					return;
+				}
+				
+				// Update the user successfully
+				feedback = "success";
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}
 		}
