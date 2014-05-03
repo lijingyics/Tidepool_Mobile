@@ -3,7 +3,6 @@ package com.tidepool.entities;
 import java.io.Serializable;
 import java.util.Date;
 
-@SuppressWarnings("serial")
 public class Data implements Serializable {
 	private long id;
 	private Date time;
