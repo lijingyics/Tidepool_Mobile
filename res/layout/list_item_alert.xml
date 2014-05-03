@@ -13,14 +13,14 @@
       android:paddingRight="4dp"
       android:paddingTop="8dp"
       android:text="bg is lower than 80"
-      android:textSize="15sp" />
+      android:textSize="18sp" />
 
   <TextView android:id="@+id/alert_bg"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="right"
     android:gravity="right"
-    android:textSize="15sp"
+    android:textSize="18sp"
     android:paddingTop="8dp"
     android:paddingBottom="8dp"
     android:paddingLeft="4dp"
