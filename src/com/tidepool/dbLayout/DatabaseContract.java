@@ -26,6 +26,8 @@ public final class DatabaseContract {
         public static final String COLUMN_BIRTH = "date_of_birth";
         public static final String COLUMN_GENDER = "gender";
         public static final String COLUMN_ROLE = "role";
+        public static final String COLUMN_LAT = "location_lat";
+        public static final String COLUMN_LNG = "location_lng";
         
         //data table - column names
         public static final String COLUMN_TIME = "time";

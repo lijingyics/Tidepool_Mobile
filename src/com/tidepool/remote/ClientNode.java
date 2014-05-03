@@ -26,6 +26,7 @@ public class ClientNode {
 	private String feedback = "";
 	private String email;
 	private String pwd;
+	private long uid;
 	private User user = null;
 	private ArrayList<User> friends = new ArrayList<User>();
 	private ArrayList<Data> data = new ArrayList<Data>();
@@ -78,6 +79,16 @@ public class ClientNode {
 		}
 		// while(!feedback.equals("success"));
 		return user; 
+	}
+	
+	public User getUser(long uid) {
+		feedback = "";
+		this.uid = uid;
+		status = "receiveUser";
+		
+		while(!feedback.equals("success"));
+		
+		return user;
 	}
 	
 	/**
@@ -183,6 +194,7 @@ public class ClientNode {
 					if(status!=null && status.equalsIgnoreCase("signin")) signin();
 					if(status!=null && status.equalsIgnoreCase("register")) register();
 					if(status!=null && status.equalsIgnoreCase("receiveData")) receiveData();
+					if(status!=null && status.equalsIgnoreCase("receiveUser")) receiveUser();
 					if(status!=null && status.equalsIgnoreCase("receiveFriends")) receiveFriends();
 					if(status!=null && status.equalsIgnoreCase("updateUser")) updateUser();
 					/*if(status!=null && status.equalsIgnoreCase("chat")) sendMsgProcess();
@@ -326,6 +338,38 @@ public class ClientNode {
 				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		public void receiveUser() {
+			try {
+				status = null;
+				writer.writeObject("sendUser");
+				String tmp = (String) reader.readObject();
+				
+				// Respond to server
+				if(!tmp.equalsIgnoreCase("get uid")) {
+					writer.writeObject("should respond get uid");
+					return;
+				}
+				
+				// Send user to server
+				writer.writeObject(uid);
+				
+				// Respond to duplicate error and failure
+				user = (User) reader.readObject();
+				if(user == null) {
+					feedback = "error";
+					return;
+				}
+				
+				// Update the user successfully
+				feedback = "success";
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}
 		}

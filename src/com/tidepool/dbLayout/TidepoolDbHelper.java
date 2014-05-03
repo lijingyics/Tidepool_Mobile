@@ -23,7 +23,9 @@ public class TidepoolDbHelper extends SQLiteOpenHelper {
     		+ FeedEntry.COLUMN_PHONE + " TEXT,"
             + FeedEntry.COLUMN_BIRTH + " DATE," 
     		+ FeedEntry.COLUMN_GENDER + " TEXT,"
-            + FeedEntry.COLUMN_ROLE + " TEXT NOT NULL" + ")";
+            + FeedEntry.COLUMN_ROLE + " TEXT NOT NULL,"
+            + FeedEntry.COLUMN_LAT + " REAL,"
+            + FeedEntry.COLUMN_LNG + " REAL" + ")";
     
     //data table
     private static final String CREATE_TABLE_DATA = "CREATE TABLE IF NOT EXISTS "

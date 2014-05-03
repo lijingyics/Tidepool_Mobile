@@ -42,7 +42,6 @@ public class UserSession {
 			Log.d("DEBUG", "user is null");
 			return null;
 		}
-		
 		Gson gson = new Gson();
 		User user = gson.fromJson(userJson, User.class);
 		return user;

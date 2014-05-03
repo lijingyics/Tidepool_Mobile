@@ -6,16 +6,11 @@ import java.util.Date;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.telephony.SmsManager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,12 +21,17 @@ import android.widget.Toast;
 
 import com.example.tidepool_mobile.R;
 import com.tidepool.entities.Data;
+import com.tidepool.entities.User;
+import com.tidepool.remote.ClientNode;
+import com.tidepool.util.LocationHelper;
+import com.tidepool.util.UserSession;
 
 @SuppressLint("SimpleDateFormat")
 public class DataFragment extends Fragment {
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	private SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
 	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+	ClientNode client = ClientNode.getInstance();
 	private static final String DIALOG_DATE = "date";
 	private static final String DIALOG_TIME = "time";
 	private static final int REQUEST_DATE = 0;
@@ -42,8 +42,6 @@ public class DataFragment extends Fragment {
 	private Button searchButton;
 	private Button locationButton;
 	private Button chatButton;
-	private LocationManager locationManager;
-	private String provider;
 
 	public static DataFragment newInstance(Data data) {
 		Bundle args = new Bundle();
@@ -101,28 +99,33 @@ public class DataFragment extends Fragment {
 
 	private void addLocationBtnListener() {
 		locationButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {   
-				// Get the location manager
-				locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-				// Define the criteria how to select the locatioin provider -> use
-				// default
-				Criteria criteria = new Criteria();
-				provider = locationManager.getBestProvider(criteria, false);
-				Location location = locationManager.getLastKnownLocation(provider);
+			public void onClick(View v) { 
+				double lat = 0;
+				double lng = 0;
+				User user = UserSession.getUser(getActivity());
+				if(user.getId() == data.getUserId()) {
+					LocationHelper locationHelper = new LocationHelper(getActivity());
+					lat = locationHelper.getLat();
+					lng = locationHelper.getLng();
+				}
+				else {
+					User u = client.getUser(data.getUserId());
+					lat = u.getLocation_lat();
+					lng = u.getLocation_lng();
+				}
 				
-				if(location != null) {
-					// send sms message and toast
-					int lat = (int) (location.getLatitude());
-				    int lng = (int) (location.getLongitude());
-				    String message = "Current location";
-				    message += "\nLatitude: " + lat;
-				    message += "\nLogtitude: " + lng;
-				    
-				    Toast toast = Toast.makeText(getActivity(),
-							message, Toast.LENGTH_SHORT);
+				if(lat == 0 && lng == 0) {
+					Toast toast = Toast.makeText(getActivity(),
+							"No location available", Toast.LENGTH_SHORT);
 					toast.setGravity(Gravity.CENTER, 0, 0);
 					toast.show();
+					return;
 				}
+				
+				Intent i = new Intent(getActivity(), LocationActivity.class);
+				i.putExtra("lat", lat);
+				i.putExtra("lng", lng);
+				startActivityForResult(i, 0);
 			}
 		});
 	}
