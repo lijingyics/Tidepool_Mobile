@@ -8,4 +8,9 @@ public class Constant {
 
 	public static final String ADMIT = "admit";
 	public static final String REFUSE = "refuse";
+	
+	public static final int DANGER_HIGH = 300;
+	public static final int HIGH = 200;
+	public static final int LOW = 80;
+	public static final int DANGER_LOW = 60;
 }

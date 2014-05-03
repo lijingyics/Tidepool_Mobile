@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+
+  <TextView
+      android:id="@+id/alert_msg"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:paddingBottom="8dp"
+      android:paddingLeft="4dp"
+      android:paddingRight="4dp"
+      android:paddingTop="8dp"
+      android:text="bg is lower than 80"
+      android:textSize="15sp" />
+
+  <TextView android:id="@+id/alert_bg"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="right"
+    android:gravity="right"
+    android:textSize="15sp"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    android:paddingLeft="4dp"
+    android:paddingRight="4dp"
+    android:text="180" />
+</RelativeLayout>
+
+
