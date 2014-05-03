@@ -6,6 +6,7 @@ import java.util.Date;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tidepool_mobile.R;
+import com.tidepool.dbLayout.TidepoolDbHelper;
 import com.tidepool.entities.User;
 import com.tidepool.remote.ClientNode;
 import com.tidepool.util.LocationHelper;
@@ -31,9 +33,9 @@ public class LoginActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		//		TidepoolDbHelper dbhelper = new TidepoolDbHelper(LoginActivity.this);
-		//		SQLiteDatabase db = dbhelper.getWritableDatabase();
-		//		dbhelper.onUpgrade(db, 1, 2);
+		TidepoolDbHelper dbhelper = new TidepoolDbHelper(LoginActivity.this);
+		SQLiteDatabase db = dbhelper.getWritableDatabase();
+		dbhelper.onUpgrade(db, 1, 2);
 		// Check whether user has already signed in
 		if(UserSession.isAdded(LoginActivity.this)) {
 			User user = UserSession.getUser(LoginActivity.this);
@@ -57,7 +59,6 @@ public class LoginActivity extends Activity {
 
 		button.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View arg0) {
-
 				// Get all inputs from login form
 				EditText email = (EditText)findViewById(R.id.login_email);
 				EditText password = (EditText)findViewById(R.id.login_password);
@@ -104,12 +105,12 @@ public class LoginActivity extends Activity {
 						e.printStackTrace();
 					}
 					user.setDateOfBirth(parsedBirth);
+
 					UserSession.addUser(LoginActivity.this, user);
 					Intent i = new Intent(LoginActivity.this, MainActivity.class);
 					startActivityForResult(i, 0);
 				}
 			}
-
 
 		});
 	}

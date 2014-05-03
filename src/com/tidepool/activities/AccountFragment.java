@@ -1,5 +1,7 @@
 package com.tidepool.activities;
 
+import com.example.tidepool_mobile.R;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -17,7 +19,6 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.example.tidepool_mobile.R;
 import com.tidepool.dbLayout.UserDbSource;
 import com.tidepool.entities.User;
 import com.tidepool.remote.ClientNode;

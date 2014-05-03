@@ -53,7 +53,7 @@ public class MonitorFragment extends ListFragment {
 		User user = ((UserAdapter)getListAdapter()).getItem(position);
 		Intent i = new Intent(getActivity(), DataPagerActivity.class);
 		
-		ArrayList<Data> datas = client.getData();
+		ArrayList<Data> datas = client.getData(user.getId());
 		
 		if(datas.size() > 0) {
 			i.putExtra("datas", datas);
