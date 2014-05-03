@@ -41,7 +41,6 @@ public class DataFragment extends Fragment {
 	private Button mTimeButton;
 	private Button searchButton;
 	private Button locationButton;
-	private Button chatButton;
 
 	public static DataFragment newInstance(Data data) {
 		Bundle args = new Bundle();
@@ -75,7 +74,6 @@ public class DataFragment extends Fragment {
 		mTimeButton = (Button)v.findViewById(R.id.change_time);
 		searchButton = (Button)v.findViewById(R.id.search_data);
 		locationButton = (Button)v.findViewById(R.id.location);
-		chatButton = (Button)v.findViewById(R.id.chatting);
 
 		titleName.setText(username);
 		bg.setText(String.valueOf(data.getBg()));
@@ -91,7 +89,6 @@ public class DataFragment extends Fragment {
 		addTimePicker();
 
 		addLocationBtnListener();
-		addChatBtnListener();
 		addSearchListener();
 
 		return v;
@@ -126,14 +123,6 @@ public class DataFragment extends Fragment {
 				i.putExtra("lat", lat);
 				i.putExtra("lng", lng);
 				startActivityForResult(i, 0);
-			}
-		});
-	}
-
-	private void addChatBtnListener() {
-		chatButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {                	            	
-
 			}
 		});
 	}
