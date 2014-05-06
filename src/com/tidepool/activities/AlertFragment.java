@@ -42,12 +42,11 @@ public class AlertFragment extends ListFragment {
 		theAlert = new ArrayList<Alert>();
 		// Get the user
 		me = UserSession.getUser(this.getActivity());
-		if(me.getRole().equals(Constant.PARENT))
-			return;
-		
-		// Get the user data
-		data = client.getData(me.getId());
-		theAlert.addAll(inserHistory());
+		if(!me.getRole().equals(Constant.PARENT)) {
+			// Get the user data
+			data = client.getData(me.getId());
+			theAlert.addAll(inserHistory());
+		}
 		
 		UserAdapter adapter = new UserAdapter(theAlert);
 		setListAdapter(adapter);
